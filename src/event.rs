@@ -24,9 +24,16 @@ impl Display for EventInstance {
 /// The schedule of a map meta event
 #[derive(Clone, Debug)]
 pub struct EventSchedule {
+    /// The name of the event
     pub name: String,
+
+    /// The offset from UTC 00:00 the first event occurs
     pub offset: Duration,
+
+    /// How often the event occurs
     pub frequency: Duration,
+
+    /// How long the event lasts
     pub length: Duration,
 }
 
