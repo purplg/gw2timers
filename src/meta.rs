@@ -26,6 +26,18 @@ impl MetaIter {
             schedule: meta_key.info().events,
         }
     }
+
+    /// Skip to a certain time of day
+    pub fn time(mut self, time: NaiveTime) -> Self {
+        self.current_time = Duration::seconds(time.num_seconds_from_midnight() as i64);
+        self
+    }
+
+    /// Skip forward an amount of time
+    pub fn fast_foward(mut self, amount: Duration) -> Self {
+        self.current_time = self.current_time.add(amount);
+        self
+    }
 }
 
 impl Iterator for MetaIter {

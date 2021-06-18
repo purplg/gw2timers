@@ -7,7 +7,7 @@ mod tests {
     use chrono::{Duration, NaiveTime};
 
     use super::event::EventScheduleIter;
-    use super::meta::{MetaIter, MetaKey};
+    use super::meta::MetaKey;
 
     // TODO Write more event tests
     #[test]
@@ -32,7 +32,7 @@ mod tests {
     #[test]
     #[rustfmt::skip]
     fn test_meta_iter() {
-        let mut meta_iter = MetaIter::new(MetaKey::WorldBosses, NaiveTime::from_hms(8, 41, 0)).peekable(); // 08:40 UTC (04:40 EDT)
+        let mut meta_iter = MetaKey::WorldBosses.into_iter().time(NaiveTime::from_hms(8, 41, 0)).peekable();
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Claw of Jormag");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Fire Elemental");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Admiral Taidha Covington");
@@ -82,5 +82,15 @@ mod tests {
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Tequatl the Sunless");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Triple Trouble");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Karka Queen");
+    }
+
+    #[test]
+    fn test_iterator_fns() {
+        let mut meta_iter = MetaKey::LakeDoric
+            .into_iter()
+            .time(NaiveTime::from_hms(4, 10, 0))
+            .fast_foward(Duration::hours(1));
+        assert_eq!(meta_iter.next().unwrap().schedule.name, "Saidra's Haven");
+        assert_eq!(meta_iter.next().unwrap().schedule.name, "New Loamhurst");
     }
 }
