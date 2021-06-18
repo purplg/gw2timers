@@ -149,7 +149,7 @@ impl MetaKey {
                         name: "Admiral Taidha Covington".to_string(),
                         offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(3),
-                        length: Duration::minutes(10),
+                        length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Svanir Shaman Chief".to_string(),
@@ -185,7 +185,7 @@ impl MetaKey {
                         name: "Modniir Ulgoth".to_string(),
                         offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(3),
-                        length: Duration::minutes(20),
+                        length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Shadow Behemoth".to_string(),
