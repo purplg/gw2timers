@@ -1,8 +1,12 @@
 [package]
 name = "gw2timers"
+description = "Iterate and collect Guild Wars 2 map meta event times"
 version = "0.1.0"
 authors = ["Ben Whitley <dev@purplg.com>"]
 edition = "2018"
+license = "MIT"
+homepage = "https://gitlab.com/purplg/gw2timers"
+repository = "https://gitlab.com/purplg/gw2timers"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
