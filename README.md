@@ -4,7 +4,7 @@ A simple way to iterate and collect Guild Wars 2 map meta event times
 
 # Usage
 
-Getting the next 10 upcoming events
+Getting the next 10 upcoming events in Auric Basin
 
 ```rust
 fn main() {
