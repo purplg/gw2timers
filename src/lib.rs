@@ -14,7 +14,7 @@ mod tests {
     fn test_event_iter() {
         use crate::schedule::EventSchedule;
         let test_event_schedule = EventSchedule {
-            name: "Reoccuring event".to_string(),
+            name: "Reoccurring event".to_string(),
             offset: NaiveTime::from_hms(0, 20, 0),
             frequency: Duration::hours(1),
             length: Duration::minutes(15),
