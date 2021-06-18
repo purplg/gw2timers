@@ -101,7 +101,7 @@ mod tests {
             .into_iter()
             .time(NaiveTime::from_hms(4, 10, 0))
             .fast_foward(Duration::hours(1));
-        // assert_eq!(meta_iter.next().unwrap().schedule.name, "Saidra's Haven");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "New Loamhurst");
+        assert_eq!(meta_iter.next().unwrap().schedule.name, "Noran's Homestead");
     }
 }
