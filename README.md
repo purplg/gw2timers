@@ -8,7 +8,7 @@ Getting the next 10 upcoming events in Auric Basin
 
 ```rust
 fn main() {
-    let next_10_auricbasic_event =
+    let next_10_auricbasin_event =
         MetaIter::new(MetaKey::AuricBasin, Utc::now().time())
             .take(10)
             .collect::<Vec<EventInstance>>();
