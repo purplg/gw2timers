@@ -57,7 +57,7 @@ mod tests {
     #[test]
     #[rustfmt::skip]
     fn test_hard_world_bosses() {
-        let mut meta_iter = MetaIter::new(MetaKey::HardWorldBosses, NaiveTime::from_hms(0, 0, 0));
+        let mut meta_iter = MetaKey::HardWorldBosses.into_iter();
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Tequatl the Sunless");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Triple Trouble");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Karka Queen");

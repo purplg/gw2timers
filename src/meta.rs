@@ -1,6 +1,6 @@
 use std::ops::{Add, Sub};
 
-use chrono::{Duration, NaiveTime, Timelike};
+use chrono::{Duration, NaiveTime, Timelike, Utc};
 
 use super::{
     category::Category,
@@ -53,6 +53,16 @@ impl Iterator for MetaIter {
             .unwrap();
         self.current_time = next_event.start_time + next_event.schedule.length;
         Some(next_event)
+    }
+}
+
+impl IntoIterator for MetaKey {
+    type Item = EventInstance;
+
+    type IntoIter = MetaIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        MetaIter::new(self, Utc::now().time())
     }
 }
 
