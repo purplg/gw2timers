@@ -1,6 +1,6 @@
-mod category;
-mod event;
-mod meta;
+pub mod category;
+pub mod event;
+pub mod meta;
 
 #[cfg(test)]
 mod tests {
