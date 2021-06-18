@@ -1,29 +1,31 @@
 use std::ops::{Add, Sub};
 
-use chrono::{Duration, NaiveTime, Timelike, Utc};
+use chrono::{Duration, NaiveTime, Timelike};
 
-use super::{
-    category::Category,
-    event::{EventInstance, EventSchedule, EventScheduleIter},
-};
+use crate::schedule::EventSchedule;
+
+use super::{category::Category, event::EventInstance};
 
 pub struct Meta {
     pub name: String,
     pub category: Category,
-    pub events: Vec<EventSchedule>,
+    pub schedules: Vec<EventSchedule>,
 }
 
-pub struct MetaIter {
+pub struct IntoIter {
     /// Respresents the amount of time from UTC 00:00
     current_time: Duration,
-    schedule: Vec<EventSchedule>,
+
+    /// A meta's schedule is a collection of Event's (in that meta) schedules
+    schedules: Vec<EventSchedule>,
 }
 
-impl MetaIter {
-    pub fn new(meta_key: MetaKey, current_time: NaiveTime) -> Self {
+impl IntoIter {
+    pub fn new<'a>(meta_key: &'a MetaKey, current_time: NaiveTime) -> Self {
+        println!("MetaIter::new({})", current_time);
         Self {
             current_time: Duration::seconds(current_time.num_seconds_from_midnight() as i64),
-            schedule: meta_key.info().events,
+            schedules: meta_key.info().schedules,
         }
     }
 
@@ -40,15 +42,17 @@ impl MetaIter {
     }
 }
 
-impl Iterator for MetaIter {
+impl Iterator for IntoIter {
     type Item = EventInstance;
 
     fn next(&mut self) -> Option<EventInstance> {
-        let next_event = self
-            .schedule
+        let next_event: EventInstance = self
+            .schedules
             .iter()
-            .map(|event| {
-                EventScheduleIter::new(event, self.current_time)
+            .map(|event_schedule| {
+                event_schedule
+                    .into_iter()
+                    .fast_foward(self.current_time)
                     .next()
                     .unwrap()
             })
@@ -63,7 +67,7 @@ impl Iterator for MetaIter {
                 }
             })
             .unwrap();
-        self.current_time = next_event.start_time + next_event.schedule.length;
+        self.current_time = next_event.start_time;
         Some(next_event)
     }
 }
@@ -71,10 +75,10 @@ impl Iterator for MetaIter {
 impl IntoIterator for MetaKey {
     type Item = EventInstance;
 
-    type IntoIter = MetaIter;
+    type IntoIter = IntoIter;
 
     fn into_iter(self) -> Self::IntoIter {
-        MetaIter::new(self, Utc::now().time())
+        IntoIter::new(&self, NaiveTime::from_hms(0, 0, 0))
     }
 }
 
@@ -136,7 +140,7 @@ impl MetaKey {
             MetaKey::DayAndNight => Meta {
                 name: "Day and Night".to_string(),
                 category: Category::CoreTyria,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Dawn".to_string(),
                         offset: NaiveTime::from_hms(0, 25, 0),
@@ -166,7 +170,7 @@ impl MetaKey {
             MetaKey::WorldBosses => Meta {
                 name: "World Bosses".to_string(),
                 category: Category::CoreTyria,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Admiral Taidha Covington".to_string(),
                         offset: NaiveTime::from_hms(0, 0, 0),
@@ -232,7 +236,7 @@ impl MetaKey {
             MetaKey::HardWorldBosses => Meta {
                 name: "Hard World Bosses".to_string(),
                 category: Category::CoreTyria,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Tequatl the Sunless".to_string(),
                         offset: NaiveTime::from_hms(0, 0, 0),
@@ -346,7 +350,7 @@ impl MetaKey {
             MetaKey::LeyLineAnomaly => Meta {
                 name: "Ley-Line Anomaly".to_string(),
                 category: Category::CoreTyria,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Timberline Falls".to_string(),
                         offset: NaiveTime::from_hms(0, 20, 0),
@@ -370,7 +374,7 @@ impl MetaKey {
             MetaKey::PVPTournaments => Meta {
                 name: "PvP Tournaments".to_string(),
                 category: Category::CoreTyria,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Balthazar's Brawl".to_string(),
                         offset: NaiveTime::from_hms(0, 0, 0),
@@ -400,7 +404,7 @@ impl MetaKey {
             MetaKey::DryTop => Meta {
                 name: "Dry Top".to_string(),
                 category: Category::LivingWorldSeason2,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Crash Site".to_string(),
                         offset: NaiveTime::from_hms(0, 0, 0),
@@ -418,7 +422,7 @@ impl MetaKey {
             MetaKey::VerdantBrink => Meta {
                 name: "Verdant Brink".to_string(),
                 category: Category::HeartOfThorns,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Night: Night and the Enemy".to_string(),
                         offset: NaiveTime::from_hms(1, 45, 0),
@@ -442,7 +446,7 @@ impl MetaKey {
             MetaKey::AuricBasin => Meta {
                 name: "Auric Basin".to_string(),
                 category: Category::HeartOfThorns,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Challenges".to_string(),
                         offset: NaiveTime::from_hms(0, 45, 0),
@@ -472,7 +476,7 @@ impl MetaKey {
             MetaKey::TangledDepths => Meta {
                 name: "Tangled Depths".to_string(),
                 category: Category::HeartOfThorns,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Prep".to_string(),
                         offset: NaiveTime::from_hms(0, 25, 0),
@@ -496,7 +500,7 @@ impl MetaKey {
             MetaKey::DragonsStand => Meta {
                 name: "Dragon's Stand".to_string(),
                 category: Category::HeartOfThorns,
-                events: vec![EventSchedule {
+                schedules: vec![EventSchedule {
                     name: "Start advancing on the Blighting Towers".to_string(),
                     offset: NaiveTime::from_hms(1, 30, 0),
                     frequency: Duration::hours(2),
@@ -506,7 +510,7 @@ impl MetaKey {
             MetaKey::LakeDoric => Meta {
                 name: "Lake Doric".to_string(),
                 category: Category::LivingWorldSeason3,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Noran's Homestead".to_string(),
                         offset: NaiveTime::from_hms(0, 30, 0),
@@ -530,7 +534,7 @@ impl MetaKey {
             MetaKey::CrystalOasis => Meta {
                 name: "Crystal Oasis".to_string(),
                 category: Category::PathOfFire,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Rounds 1 to 3".to_string(),
                         offset: NaiveTime::from_hms(0, 5, 0),
@@ -548,7 +552,7 @@ impl MetaKey {
             MetaKey::DesertHighlands => Meta {
                 name: "Desert Highlands".to_string(),
                 category: Category::PathOfFire,
-                events: vec![EventSchedule {
+                schedules: vec![EventSchedule {
                     name: "Buried Treasure".to_string(),
                     offset: NaiveTime::from_hms(1, 0, 0),
                     frequency: Duration::hours(2),
@@ -558,7 +562,7 @@ impl MetaKey {
             MetaKey::ElonRiverlands => Meta {
                 name: "Elon Riverlands".to_string(),
                 category: Category::PathOfFire,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "The Path to Ascension: Augury Rock".to_string(),
                         offset: NaiveTime::from_hms(1, 30, 0),
@@ -576,7 +580,7 @@ impl MetaKey {
             MetaKey::TheDesolation => Meta {
                 name: "The Desolation".to_string(),
                 category: Category::PathOfFire,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Junudu Rising".to_string(),
                         offset: NaiveTime::from_hms(0, 30, 0),
@@ -600,7 +604,7 @@ impl MetaKey {
             MetaKey::DomainOfVabbi => Meta {
                 name: "Domain of Vabbi".to_string(),
                 category: Category::PathOfFire,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Forged with Fire".to_string(),
                         offset: NaiveTime::from_hms(0, 0, 0),
@@ -618,7 +622,7 @@ impl MetaKey {
             MetaKey::DomainOfIstan => Meta {
                 name: "Domain of Istan".to_string(),
                 category: Category::LivingWorldSeason4,
-                events: vec![EventSchedule {
+                schedules: vec![EventSchedule {
                     name: "Palawadan".to_string(),
                     offset: NaiveTime::from_hms(1, 45, 0),
                     frequency: Duration::hours(2),
@@ -628,7 +632,7 @@ impl MetaKey {
             MetaKey::JahaiBluffs => Meta {
                 name: "Jahai Bluffs".to_string(),
                 category: Category::LivingWorldSeason4,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Escorts".to_string(),
                         offset: NaiveTime::from_hms(1, 0, 0),
@@ -646,7 +650,7 @@ impl MetaKey {
             MetaKey::ThunderheadPeaks => Meta {
                 name: "Thunderhead Peaks".to_string(),
                 category: Category::LivingWorldSeason4,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "The Oil Floes".to_string(),
                         offset: NaiveTime::from_hms(0, 45, 0),
@@ -664,7 +668,7 @@ impl MetaKey {
             MetaKey::GrothmarValley => Meta {
                 name: "Grothmar Valley".to_string(),
                 category: Category::TheIcebroodSaga,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Effigy".to_string(),
                         offset: NaiveTime::from_hms(0, 10, 0),
@@ -694,7 +698,7 @@ impl MetaKey {
             MetaKey::BjoraMarches => Meta {
                 name: "Bjora Marches".to_string(),
                 category: Category::TheIcebroodSaga,
-                events: vec![
+                schedules: vec![
                     EventSchedule {
                         name: "Shards and Construct".to_string(),
                         offset: NaiveTime::from_hms(0, 0, 0),
@@ -724,7 +728,7 @@ impl MetaKey {
             MetaKey::Dragonstorm => Meta {
                 name: "Dragonstorm".to_string(),
                 category: Category::TheIcebroodSaga,
-                events: vec![EventSchedule {
+                schedules: vec![EventSchedule {
                     name: "Dragonstorm (Public)".to_string(),
                     offset: NaiveTime::from_hms(1, 0, 0),
                     frequency: Duration::hours(2),
