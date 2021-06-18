@@ -77,6 +77,26 @@ impl<'a> IntoIter<'_> {
         self.offset = self.offset.add(amount);
         self
     }
+
+    pub fn now(&self) -> Option<EventInstance> {
+        let t = self.offset.num_minutes();
+        let o = Duration::seconds(self.event_schedule.offset.num_seconds_from_midnight() as i64)
+            .num_minutes();
+        let f = self.event_schedule.frequency.num_minutes();
+        let l = self.event_schedule.length.num_minutes();
+        let i = t / f;
+        let tr = t - i * f;
+
+        if tr < o || tr >= o + l {
+            return None;
+        }
+
+        let offset = Duration::minutes(o + i * f);
+        Some(EventInstance {
+            schedule: self.event_schedule.clone(),
+            start_time: offset,
+        })
+    }
 }
 
 impl<'a> Iterator for IntoIter<'a> {

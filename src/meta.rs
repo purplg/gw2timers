@@ -39,6 +39,18 @@ impl IntoIter {
         self.current_time = self.current_time.add(amount);
         self
     }
+
+    pub fn now(&self) -> Option<EventInstance> {
+        self.schedules
+            .iter()
+            .filter_map(|event_schedules| {
+                event_schedules
+                    .into_iter()
+                    .fast_foward(self.current_time)
+                    .now()
+            })
+            .next()
+    }
 }
 
 impl Iterator for IntoIter {
