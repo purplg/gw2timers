@@ -22,7 +22,6 @@ pub struct IntoIter {
 
 impl IntoIter {
     pub fn new<'a>(meta_key: &'a MetaKey, current_time: NaiveTime) -> Self {
-        println!("MetaIter::new({})", current_time);
         Self {
             current_time: Duration::seconds(current_time.num_seconds_from_midnight() as i64),
             schedules: meta_key.info().schedules,
