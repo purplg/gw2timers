@@ -4,7 +4,7 @@ pub mod meta;
 
 #[cfg(test)]
 mod tests {
-    use chrono::Duration;
+    use chrono::{Duration, NaiveTime};
 
     use super::event::EventScheduleIter;
     use super::meta::{MetaIter, MetaKey};
@@ -32,7 +32,7 @@ mod tests {
     #[test]
     #[rustfmt::skip]
     fn test_meta_iter() {
-        let mut meta_iter = MetaIter::new(MetaKey::WorldBosses, Duration::minutes(521)).peekable(); // 08:40 UTC (04:40 EDT)
+        let mut meta_iter = MetaIter::new(MetaKey::WorldBosses, NaiveTime::from_hms(8, 41, 0)).peekable(); // 08:40 UTC (04:40 EDT)
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Claw of Jormag");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Fire Elemental");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Admiral Taidha Covington");
@@ -57,7 +57,7 @@ mod tests {
     #[test]
     #[rustfmt::skip]
     fn test_hard_world_bosses() {
-        let mut meta_iter = MetaIter::new(MetaKey::HardWorldBosses, Duration::minutes(-1));
+        let mut meta_iter = MetaIter::new(MetaKey::HardWorldBosses, NaiveTime::from_hms(0, 0, 0));
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Tequatl the Sunless");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Triple Trouble");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Karka Queen");

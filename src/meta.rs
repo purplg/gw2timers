@@ -1,6 +1,6 @@
 use std::ops::{Add, Sub};
 
-use chrono::Duration;
+use chrono::{Duration, NaiveTime, Timelike};
 
 use super::{
     category::Category,
@@ -14,14 +14,15 @@ pub struct Meta {
 }
 
 pub struct MetaIter {
+    /// Respresents the amount of time from UTC 00:00
     current_time: Duration,
     schedule: Vec<EventSchedule>,
 }
 
 impl MetaIter {
-    pub fn new(meta_key: MetaKey, minutes_into_day: Duration) -> Self {
+    pub fn new(meta_key: MetaKey, current_time: NaiveTime) -> Self {
         Self {
-            current_time: minutes_into_day,
+            current_time: Duration::seconds(current_time.num_seconds_from_midnight() as i64),
             schedule: meta_key.info().events,
         }
     }
@@ -116,25 +117,25 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Dawn".to_string(),
-                        offset: Duration::minutes(25),
+                        offset: NaiveTime::from_hms(0, 25, 0),
                         length: Duration::minutes(5),
                         frequency: Duration::hours(2),
                     },
                     EventSchedule {
                         name: "Day".to_string(),
-                        offset: Duration::minutes(30),
+                        offset: NaiveTime::from_hms(0, 30, 0),
                         length: Duration::minutes(70),
                         frequency: Duration::hours(2),
                     },
                     EventSchedule {
                         name: "Dusk".to_string(),
-                        offset: Duration::minutes(100),
+                        offset: NaiveTime::from_hms(1, 40, 0),
                         length: Duration::minutes(5),
                         frequency: Duration::hours(2),
                     },
                     EventSchedule {
                         name: "Night".to_string(),
-                        offset: Duration::minutes(105),
+                        offset: NaiveTime::from_hms(1, 45, 0),
                         length: Duration::minutes(40),
                         frequency: Duration::hours(2),
                     },
@@ -146,61 +147,61 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Admiral Taidha Covington".to_string(),
-                        offset: Duration::minutes(0),
+                        offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(10),
                     },
                     EventSchedule {
                         name: "Svanir Shaman Chief".to_string(),
-                        offset: Duration::minutes(15),
+                        offset: NaiveTime::from_hms(0, 15, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Megadestroyer".to_string(),
-                        offset: Duration::minutes(30),
+                        offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Fire Elemental".to_string(),
-                        offset: Duration::minutes(45),
+                        offset: NaiveTime::from_hms(0, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "The Shatterer".to_string(),
-                        offset: Duration::hours(1),
+                        offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Great Jungle Wurm".to_string(),
-                        offset: Duration::minutes(75),
+                        offset: NaiveTime::from_hms(1, 15, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Modniir Ulgoth".to_string(),
-                        offset: Duration::minutes(90),
+                        offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Shadow Behemoth".to_string(),
-                        offset: Duration::minutes(105),
+                        offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Golem Mark II".to_string(),
-                        offset: Duration::minutes(120),
+                        offset: NaiveTime::from_hms(2, 0, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Claw of Jormag".to_string(),
-                        offset: Duration::minutes(150),
+                        offset: NaiveTime::from_hms(2, 30, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
@@ -212,109 +213,109 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Tequatl the Sunless".to_string(),
-                        offset: Duration::hours(0),
+                        offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Triple Trouble".to_string(),
-                        offset: Duration::hours(1),
+                        offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Karka Queen".to_string(),
-                        offset: Duration::hours(2),
+                        offset: NaiveTime::from_hms(2, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Tequatl the Sunless".to_string(),
-                        offset: Duration::hours(3),
+                        offset: NaiveTime::from_hms(3, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Triple Trouble".to_string(),
-                        offset: Duration::hours(4),
+                        offset: NaiveTime::from_hms(4, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Karka Queen".to_string(),
-                        offset: Duration::hours(6),
+                        offset: NaiveTime::from_hms(6, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Tequatl the Sunless".to_string(),
-                        offset: Duration::hours(7),
+                        offset: NaiveTime::from_hms(7, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Triple Trouble".to_string(),
-                        offset: Duration::hours(8),
+                        offset: NaiveTime::from_hms(8, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Karka Queen".to_string(),
-                        offset: Duration::hours(10).add(Duration::minutes(30)),
+                        offset: NaiveTime::from_hms(10, 30, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Tequatl the Sunless".to_string(),
-                        offset: Duration::hours(11).add(Duration::minutes(30)),
+                        offset: NaiveTime::from_hms(11, 30, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Triple Trouble".to_string(),
-                        offset: Duration::hours(12).add(Duration::minutes(30)),
+                        offset: NaiveTime::from_hms(12, 30, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Karka Queen".to_string(),
-                        offset: Duration::hours(15),
+                        offset: NaiveTime::from_hms(15, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Tequatl the Sunless".to_string(),
-                        offset: Duration::hours(16),
+                        offset: NaiveTime::from_hms(16, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Triple Trouble".to_string(),
-                        offset: Duration::hours(17),
+                        offset: NaiveTime::from_hms(17, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Karka Queen".to_string(),
-                        offset: Duration::hours(18),
+                        offset: NaiveTime::from_hms(18, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Tequatl the Sunless".to_string(),
-                        offset: Duration::hours(19),
+                        offset: NaiveTime::from_hms(19, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Triple Trouble".to_string(),
-                        offset: Duration::hours(20),
+                        offset: NaiveTime::from_hms(20, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Karka Queen".to_string(),
-                        offset: Duration::hours(23),
+                        offset: NaiveTime::from_hms(23, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
@@ -326,19 +327,19 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Timberline Falls".to_string(),
-                        offset: Duration::minutes(20),
+                        offset: NaiveTime::from_hms(0, 20, 0),
                         frequency: Duration::hours(6),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Iron Marches".to_string(),
-                        offset: Duration::hours(2).add(Duration::minutes(20)),
+                        offset: NaiveTime::from_hms(2, 20, 0),
                         frequency: Duration::hours(6),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Gendarran Fields".to_string(),
-                        offset: Duration::hours(4).add(Duration::minutes(20)),
+                        offset: NaiveTime::from_hms(4, 20, 0),
                         frequency: Duration::hours(6),
                         length: Duration::minutes(20),
                     },
@@ -350,25 +351,25 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Balthazar's Brawl".to_string(),
-                        offset: Duration::hours(0),
+                        offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(12),
                         length: Duration::hours(1),
                     },
                     EventSchedule {
                         name: "Grenth's Game".to_string(),
-                        offset: Duration::hours(3),
+                        offset: NaiveTime::from_hms(3, 0, 0),
                         frequency: Duration::hours(12),
                         length: Duration::hours(1),
                     },
                     EventSchedule {
                         name: "Melandru's Matchup".to_string(),
-                        offset: Duration::hours(6),
+                        offset: NaiveTime::from_hms(6, 0, 0),
                         frequency: Duration::hours(12),
                         length: Duration::hours(1),
                     },
                     EventSchedule {
                         name: "Lyssa's Legions".to_string(),
-                        offset: Duration::hours(9),
+                        offset: NaiveTime::from_hms(9, 0, 0),
                         frequency: Duration::hours(12),
                         length: Duration::hours(1),
                     },
@@ -380,13 +381,13 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Crash Site".to_string(),
-                        offset: Duration::hours(0),
+                        offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(1),
                         length: Duration::minutes(40),
                     },
                     EventSchedule {
                         name: "Sandstorm".to_string(),
-                        offset: Duration::minutes(40),
+                        offset: NaiveTime::from_hms(0, 40, 0),
                         frequency: Duration::hours(1),
                         length: Duration::minutes(20),
                     },
@@ -398,19 +399,19 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Night: Night and the Enemy".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(45)),
+                        offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(25),
                     },
                     EventSchedule {
                         name: "Night Bosses".to_string(),
-                        offset: Duration::hours(10),
+                        offset: NaiveTime::from_hms(10, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Day: Securing Verdant Brink".to_string(),
-                        offset: Duration::minutes(30),
+                        offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::hours(1).add(Duration::minutes(15)),
                     },
@@ -422,27 +423,27 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Challenges".to_string(),
-                        offset: Duration::minutes(45),
+                        offset: NaiveTime::from_hms(0, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Octovine".to_string(),
-                        offset: Duration::hours(1),
+                        offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Reset".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(20)),
+                        offset: NaiveTime::from_hms(1, 20, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(10),
                     },
                     EventSchedule {
                         name: "Pylons".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(10)),
+                        offset: NaiveTime::from_hms(1, 10, 0),
                         frequency: Duration::hours(2),
-                        length: Duration::hours(1).add(Duration::minutes(15)),
+                        length: Duration::minutes(75),
                     },
                 ],
             },
@@ -452,19 +453,19 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Prep".to_string(),
-                        offset: Duration::hours(25),
+                        offset: NaiveTime::from_hms(0, 25, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(5),
                     },
                     EventSchedule {
                         name: "Chak Gerent".to_string(),
-                        offset: Duration::minutes(30),
+                        offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Help the Outposts".to_string(),
-                        offset: Duration::minutes(50),
+                        offset: NaiveTime::from_hms(0, 50, 0),
                         frequency: Duration::hours(2),
                         length: Duration::hours(1).add(Duration::minutes(35)),
                     },
@@ -475,7 +476,7 @@ impl MetaKey {
                 category: Category::HeartOfThorns,
                 events: vec![EventSchedule {
                     name: "Start advancing on the Blighting Towers".to_string(),
-                    offset: Duration::hours(1).add(Duration::minutes(30)),
+                    offset: NaiveTime::from_hms(1, 30, 0),
                     frequency: Duration::hours(2),
                     length: Duration::hours(2),
                 }],
@@ -486,19 +487,19 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Noran's Homestead".to_string(),
-                        offset: Duration::minutes(30),
+                        offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Saidra's Haven".to_string(),
-                        offset: Duration::hours(1),
+                        offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(45),
                     },
                     EventSchedule {
                         name: "New Loamhurst".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(45)),
+                        offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(45),
                     },
@@ -510,13 +511,13 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Rounds 1 to 3".to_string(),
-                        offset: Duration::minutes(5),
+                        offset: NaiveTime::from_hms(0, 5, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(10),
                     },
                     EventSchedule {
                         name: "Pinata/Reset".to_string(),
-                        offset: Duration::minutes(20),
+                        offset: NaiveTime::from_hms(0, 20, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(10),
                     },
@@ -527,7 +528,7 @@ impl MetaKey {
                 category: Category::PathOfFire,
                 events: vec![EventSchedule {
                     name: "Buried Treasure".to_string(),
-                    offset: Duration::hours(1),
+                    offset: NaiveTime::from_hms(1, 0, 0),
                     frequency: Duration::hours(2),
                     length: Duration::minutes(20),
                 }],
@@ -538,13 +539,13 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "The Path to Ascension: Augury Rock".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(30)),
+                        offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(25),
                     },
                     EventSchedule {
                         name: "Doppelganger".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(50)),
+                        offset: NaiveTime::from_hms(1, 50, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
@@ -556,19 +557,19 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Junudu Rising".to_string(),
-                        offset: Duration::minutes(30),
+                        offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Maws of Torment".to_string(),
-                        offset: Duration::hours(1),
+                        offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Junudu Rising".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(30)),
+                        offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
@@ -580,13 +581,13 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Forged with Fire".to_string(),
-                        offset: Duration::hours(0),
+                        offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(1),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
                         name: "Serpents' Ire".to_string(),
-                        offset: Duration::minutes(30),
+                        offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(30),
                     },
@@ -597,7 +598,7 @@ impl MetaKey {
                 category: Category::LivingWorldSeason4,
                 events: vec![EventSchedule {
                     name: "Palawadan".to_string(),
-                    offset: Duration::hours(1).add(Duration::minutes(45)),
+                    offset: NaiveTime::from_hms(1, 45, 0),
                     frequency: Duration::hours(2),
                     length: Duration::minutes(30),
                 }],
@@ -608,13 +609,13 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Escorts".to_string(),
-                        offset: Duration::hours(1),
+                        offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Death-Branded Shatterer".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(15)),
+                        offset: NaiveTime::from_hms(1, 15, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
@@ -626,13 +627,13 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "The Oil Floes".to_string(),
-                        offset: Duration::minutes(45),
+                        offset: NaiveTime::from_hms(0, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Thunderhead Keep".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(45)),
+                        offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
@@ -644,25 +645,25 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Effigy".to_string(),
-                        offset: Duration::minutes(10),
+                        offset: NaiveTime::from_hms(0, 10, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Doomlore Shrine".to_string(),
-                        offset: Duration::minutes(38),
+                        offset: NaiveTime::from_hms(0, 38, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(22),
                     },
                     EventSchedule {
                         name: "Ooze Pits".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(5)),
+                        offset: NaiveTime::from_hms(1, 5, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
                         name: "Metal Concert".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(40)),
+                        offset: NaiveTime::from_hms(1, 40, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
@@ -674,25 +675,25 @@ impl MetaKey {
                 events: vec![
                     EventSchedule {
                         name: "Shards and Construct".to_string(),
-                        offset: Duration::minutes(0),
+                        offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(5),
                     },
                     EventSchedule {
                         name: "Icebrood Champions".to_string(),
-                        offset: Duration::minutes(5),
+                        offset: NaiveTime::from_hms(0, 5, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
                         name: "Drakkar and Spirits of the Wild".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(5)),
+                        offset: NaiveTime::from_hms(1, 5, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(35),
                     },
                     EventSchedule {
                         name: "Raven Shrines".to_string(),
-                        offset: Duration::hours(1).add(Duration::minutes(45)),
+                        offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
@@ -703,7 +704,7 @@ impl MetaKey {
                 category: Category::TheIcebroodSaga,
                 events: vec![EventSchedule {
                     name: "Dragonstorm (Public)".to_string(),
-                    offset: Duration::hours(1),
+                    offset: NaiveTime::from_hms(1, 0, 0),
                     frequency: Duration::hours(2),
                     length: Duration::minutes(20),
                 }],

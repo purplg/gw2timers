@@ -3,7 +3,7 @@ use std::{
     ops::{Add, Sub},
 };
 
-use chrono::Duration;
+use chrono::{Duration, NaiveTime, Timelike};
 
 /// A specific occurance of a map meta event
 #[derive(Debug)]
@@ -28,7 +28,7 @@ pub struct EventSchedule {
     pub name: String,
 
     /// The offset from UTC 00:00 the first event occurs
-    pub offset: Duration,
+    pub offset: NaiveTime,
 
     /// How often the event occurs
     pub frequency: Duration,
@@ -43,7 +43,7 @@ impl Display for EventSchedule {
             f,
             "{}: offset: {}, freq: {}, len: {}",
             self.name,
-            self.offset.num_minutes(),
+            self.offset,
             self.frequency.num_minutes(),
             self.length.num_minutes()
         )
@@ -63,17 +63,22 @@ pub struct EventScheduleIter<'a> {
 impl EventScheduleIter<'_> {
     // TODO This could definitely been written better
     // Creates a new iterator starting from the previous occurance of the event
-    pub fn new(event_schedule: &EventSchedule, time_into_day: Duration) -> EventScheduleIter {
+    pub fn new(event_schedule: &EventSchedule, current_time: Duration) -> EventScheduleIter {
+        // Must use Durations instead of NaiveTime because the event_end_time might be over 24 hours
+
         // Start from the end of the first occurance of the event in the day
-        let mut event_end_time = event_schedule.offset + event_schedule.length;
+        let mut event_end_time: Duration =
+            Duration::seconds(event_schedule.offset.num_seconds_from_midnight() as i64)
+                + event_schedule.length;
 
         // Jump forward until we pass the current time
-        while event_end_time <= time_into_day {
+        while event_end_time <= current_time {
             event_end_time = event_end_time.add(event_schedule.frequency);
         }
 
         // Go back one because we want the previous event so that next() gets you the next event
         event_end_time = event_end_time.sub(event_schedule.frequency);
+
         EventScheduleIter {
             event_schedule,
             current_offset: event_end_time.sub(event_schedule.length),
