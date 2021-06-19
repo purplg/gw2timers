@@ -41,7 +41,7 @@ impl IntoIter {
     }
 
     /// Skip forward an amount of time
-    pub fn fast_foward(mut self, amount: Duration) -> Self {
+    pub fn fast_forward(mut self, amount: Duration) -> Self {
         self.current_time = self.current_time.add(amount);
         self
     }
