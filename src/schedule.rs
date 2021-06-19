@@ -55,7 +55,6 @@ pub struct IntoIter<'a> {
 }
 
 impl<'a> IntoIter<'_> {
-    // TODO This could definitely been written better
     // Creates a new iterator starting from the previous occurance of the event
     pub fn new(event_schedule: &'a EventSchedule, current_time: Duration) -> IntoIter {
         // Must use Durations instead of NaiveTime because the event_end_time might be over 24 hours
