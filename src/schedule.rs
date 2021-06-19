@@ -27,7 +27,7 @@ impl<'a> IntoIterator for &'a EventSchedule {
     type IntoIter = IntoIter<'a>;
 
     fn into_iter(self) -> Self::IntoIter {
-        IntoIter::new(self, Duration::seconds(0))
+        IntoIter::new(self, Duration::zero())
     }
 }
 
