@@ -12,6 +12,19 @@ pub struct MapMeta {
     pub schedules: Vec<EventSchedule>,
 }
 
+impl IntoIterator for MapMeta {
+    type Item = EventInstance;
+
+    type IntoIter = IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        IntoIter {
+            current_time: Duration::zero(),
+            schedules: self.schedules,
+        }
+    }
+}
+
 pub struct IntoIter {
     /// Respresents the amount of time from UTC 00:00
     current_time: Duration,
@@ -82,10 +95,7 @@ impl IntoIterator for MapMetaKind {
     type IntoIter = IntoIter;
 
     fn into_iter(self) -> Self::IntoIter {
-        IntoIter {
-            current_time: Duration::zero(),
-            schedules: self.info().schedules,
-        }
+        self.info().into_iter()
     }
 }
 
