@@ -4,15 +4,14 @@ pub mod meta;
 pub mod schedule;
 
 #[cfg(test)]
-mod tests {
+mod event_tests {
     use chrono::{Duration, NaiveTime};
 
-    use crate::{meta::MetaKey, schedule::EventSchedule};
+    use crate::schedule::EventSchedule;
 
     #[test]
     #[rustfmt::skip]
     fn test_event_iter() {
-        use crate::schedule::EventSchedule;
         let test_event_schedule = EventSchedule {
             name: "Reoccurring event".to_string(),
             offset: NaiveTime::from_hms(0, 20, 0),
@@ -41,6 +40,71 @@ mod tests {
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 140);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 200);
     }
+
+    #[test]
+    fn test_event_schedule_now() {
+        let test_event_schedule = EventSchedule {
+            name: "Reoccurring event".to_string(),
+            offset: NaiveTime::from_hms(1, 45, 0),
+            frequency: Duration::hours(3),
+            length: Duration::minutes(30),
+        };
+
+        let now = test_event_schedule
+            .into_iter()
+            .time(NaiveTime::from_hms(1, 44, 0))
+            .now();
+        assert!(now.is_none());
+
+        let now = test_event_schedule
+            .into_iter()
+            .time(NaiveTime::from_hms(1, 45, 0))
+            .now();
+        assert!(now.is_some());
+
+        let now = test_event_schedule
+            .into_iter()
+            .time(NaiveTime::from_hms(2, 14, 0))
+            .now();
+        assert!(now.is_some());
+
+        let now = test_event_schedule
+            .into_iter()
+            .time(NaiveTime::from_hms(2, 15, 0))
+            .now();
+        assert!(now.is_none());
+
+        let now = test_event_schedule
+            .into_iter()
+            .time(NaiveTime::from_hms(4, 44, 0))
+            .now();
+        assert!(now.is_none());
+
+        let now = test_event_schedule
+            .into_iter()
+            .time(NaiveTime::from_hms(4, 45, 0))
+            .now();
+        assert!(now.is_some());
+
+        let now = test_event_schedule
+            .into_iter()
+            .time(NaiveTime::from_hms(5, 14, 0))
+            .now();
+        assert!(now.is_some());
+
+        let now = test_event_schedule
+            .into_iter()
+            .time(NaiveTime::from_hms(5, 15, 0))
+            .now();
+        assert!(now.is_none());
+    }
+}
+
+#[cfg(test)]
+mod meta_tests {
+    use chrono::{Duration, NaiveTime};
+
+    use crate::meta::MetaKey;
 
     #[test]
     #[rustfmt::skip]
@@ -103,64 +167,6 @@ mod tests {
             .fast_foward(Duration::hours(1));
         assert_eq!(meta_iter.next().unwrap().schedule.name, "New Loamhurst");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Noran's Homestead");
-    }
-
-    #[test]
-    fn test_event_schedule_now() {
-        let test_event_schedule = EventSchedule {
-            name: "Reoccurring event".to_string(),
-            offset: NaiveTime::from_hms(1, 45, 0),
-            frequency: Duration::hours(3),
-            length: Duration::minutes(30),
-        };
-
-        let now = test_event_schedule
-            .into_iter()
-            .time(NaiveTime::from_hms(1, 44, 0))
-            .now();
-        assert!(now.is_none());
-
-        let now = test_event_schedule
-            .into_iter()
-            .time(NaiveTime::from_hms(1, 45, 0))
-            .now();
-        assert!(now.is_some());
-
-        let now = test_event_schedule
-            .into_iter()
-            .time(NaiveTime::from_hms(2, 14, 0))
-            .now();
-        assert!(now.is_some());
-
-        let now = test_event_schedule
-            .into_iter()
-            .time(NaiveTime::from_hms(2, 15, 0))
-            .now();
-        assert!(now.is_none());
-
-        let now = test_event_schedule
-            .into_iter()
-            .time(NaiveTime::from_hms(4, 44, 0))
-            .now();
-        assert!(now.is_none());
-
-        let now = test_event_schedule
-            .into_iter()
-            .time(NaiveTime::from_hms(4, 45, 0))
-            .now();
-        assert!(now.is_some());
-
-        let now = test_event_schedule
-            .into_iter()
-            .time(NaiveTime::from_hms(5, 14, 0))
-            .now();
-        assert!(now.is_some());
-
-        let now = test_event_schedule
-            .into_iter()
-            .time(NaiveTime::from_hms(5, 15, 0))
-            .now();
-        assert!(now.is_none());
     }
 
     #[test]
