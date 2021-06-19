@@ -6,7 +6,7 @@ use crate::schedule::EventSchedule;
 
 use super::{category::Category, event::EventInstance};
 
-pub struct Meta {
+pub struct MapMeta {
     pub name: String,
     pub category: Category,
     pub schedules: Vec<EventSchedule>,
@@ -76,7 +76,7 @@ impl Iterator for IntoIter {
     }
 }
 
-impl IntoIterator for MetaKey {
+impl IntoIterator for MapMetaKind {
     type Item = EventInstance;
 
     type IntoIter = IntoIter;
@@ -89,7 +89,7 @@ impl IntoIterator for MetaKey {
     }
 }
 
-pub enum MetaKey {
+pub enum MapMetaKind {
     DayAndNight,
     WorldBosses,
     HardWorldBosses,
@@ -114,39 +114,39 @@ pub enum MetaKey {
     Dragonstorm,
 }
 
-impl MetaKey {
+impl MapMetaKind {
     /// Get all the map meta keys available
-    pub fn all_keys() -> [MetaKey; 22] {
+    pub fn all_keys() -> [MapMetaKind; 22] {
         [
-            MetaKey::DayAndNight,
-            MetaKey::WorldBosses,
-            MetaKey::HardWorldBosses,
-            MetaKey::LeyLineAnomaly,
-            MetaKey::PVPTournaments,
-            MetaKey::DryTop,
-            MetaKey::VerdantBrink,
-            MetaKey::AuricBasin,
-            MetaKey::TangledDepths,
-            MetaKey::DragonsStand,
-            MetaKey::LakeDoric,
-            MetaKey::CrystalOasis,
-            MetaKey::DesertHighlands,
-            MetaKey::ElonRiverlands,
-            MetaKey::TheDesolation,
-            MetaKey::DomainOfVabbi,
-            MetaKey::DomainOfIstan,
-            MetaKey::JahaiBluffs,
-            MetaKey::ThunderheadPeaks,
-            MetaKey::GrothmarValley,
-            MetaKey::BjoraMarches,
-            MetaKey::Dragonstorm,
+            MapMetaKind::DayAndNight,
+            MapMetaKind::WorldBosses,
+            MapMetaKind::HardWorldBosses,
+            MapMetaKind::LeyLineAnomaly,
+            MapMetaKind::PVPTournaments,
+            MapMetaKind::DryTop,
+            MapMetaKind::VerdantBrink,
+            MapMetaKind::AuricBasin,
+            MapMetaKind::TangledDepths,
+            MapMetaKind::DragonsStand,
+            MapMetaKind::LakeDoric,
+            MapMetaKind::CrystalOasis,
+            MapMetaKind::DesertHighlands,
+            MapMetaKind::ElonRiverlands,
+            MapMetaKind::TheDesolation,
+            MapMetaKind::DomainOfVabbi,
+            MapMetaKind::DomainOfIstan,
+            MapMetaKind::JahaiBluffs,
+            MapMetaKind::ThunderheadPeaks,
+            MapMetaKind::GrothmarValley,
+            MapMetaKind::BjoraMarches,
+            MapMetaKind::Dragonstorm,
         ]
     }
 
     /// Get the schedule of this map meta event
-    pub fn info(&self) -> Meta {
+    pub fn info(&self) -> MapMeta {
         match self {
-            MetaKey::DayAndNight => Meta {
+            MapMetaKind::DayAndNight => MapMeta {
                 name: "Day and Night".to_string(),
                 category: Category::CoreTyria,
                 schedules: vec![
@@ -176,7 +176,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::WorldBosses => Meta {
+            MapMetaKind::WorldBosses => MapMeta {
                 name: "World Bosses".to_string(),
                 category: Category::CoreTyria,
                 schedules: vec![
@@ -242,7 +242,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::HardWorldBosses => Meta {
+            MapMetaKind::HardWorldBosses => MapMeta {
                 name: "Hard World Bosses".to_string(),
                 category: Category::CoreTyria,
                 schedules: vec![
@@ -356,7 +356,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::LeyLineAnomaly => Meta {
+            MapMetaKind::LeyLineAnomaly => MapMeta {
                 name: "Ley-Line Anomaly".to_string(),
                 category: Category::CoreTyria,
                 schedules: vec![
@@ -380,7 +380,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::PVPTournaments => Meta {
+            MapMetaKind::PVPTournaments => MapMeta {
                 name: "PvP Tournaments".to_string(),
                 category: Category::CoreTyria,
                 schedules: vec![
@@ -410,7 +410,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::DryTop => Meta {
+            MapMetaKind::DryTop => MapMeta {
                 name: "Dry Top".to_string(),
                 category: Category::LivingWorldSeason2,
                 schedules: vec![
@@ -428,7 +428,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::VerdantBrink => Meta {
+            MapMetaKind::VerdantBrink => MapMeta {
                 name: "Verdant Brink".to_string(),
                 category: Category::HeartOfThorns,
                 schedules: vec![
@@ -452,7 +452,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::AuricBasin => Meta {
+            MapMetaKind::AuricBasin => MapMeta {
                 name: "Auric Basin".to_string(),
                 category: Category::HeartOfThorns,
                 schedules: vec![
@@ -482,7 +482,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::TangledDepths => Meta {
+            MapMetaKind::TangledDepths => MapMeta {
                 name: "Tangled Depths".to_string(),
                 category: Category::HeartOfThorns,
                 schedules: vec![
@@ -506,7 +506,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::DragonsStand => Meta {
+            MapMetaKind::DragonsStand => MapMeta {
                 name: "Dragon's Stand".to_string(),
                 category: Category::HeartOfThorns,
                 schedules: vec![EventSchedule {
@@ -516,7 +516,7 @@ impl MetaKey {
                     length: Duration::hours(2),
                 }],
             },
-            MetaKey::LakeDoric => Meta {
+            MapMetaKind::LakeDoric => MapMeta {
                 name: "Lake Doric".to_string(),
                 category: Category::LivingWorldSeason3,
                 schedules: vec![
@@ -540,7 +540,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::CrystalOasis => Meta {
+            MapMetaKind::CrystalOasis => MapMeta {
                 name: "Crystal Oasis".to_string(),
                 category: Category::PathOfFire,
                 schedules: vec![
@@ -558,7 +558,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::DesertHighlands => Meta {
+            MapMetaKind::DesertHighlands => MapMeta {
                 name: "Desert Highlands".to_string(),
                 category: Category::PathOfFire,
                 schedules: vec![EventSchedule {
@@ -568,7 +568,7 @@ impl MetaKey {
                     length: Duration::minutes(20),
                 }],
             },
-            MetaKey::ElonRiverlands => Meta {
+            MapMetaKind::ElonRiverlands => MapMeta {
                 name: "Elon Riverlands".to_string(),
                 category: Category::PathOfFire,
                 schedules: vec![
@@ -586,7 +586,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::TheDesolation => Meta {
+            MapMetaKind::TheDesolation => MapMeta {
                 name: "The Desolation".to_string(),
                 category: Category::PathOfFire,
                 schedules: vec![
@@ -610,7 +610,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::DomainOfVabbi => Meta {
+            MapMetaKind::DomainOfVabbi => MapMeta {
                 name: "Domain of Vabbi".to_string(),
                 category: Category::PathOfFire,
                 schedules: vec![
@@ -628,7 +628,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::DomainOfIstan => Meta {
+            MapMetaKind::DomainOfIstan => MapMeta {
                 name: "Domain of Istan".to_string(),
                 category: Category::LivingWorldSeason4,
                 schedules: vec![EventSchedule {
@@ -638,7 +638,7 @@ impl MetaKey {
                     length: Duration::minutes(30),
                 }],
             },
-            MetaKey::JahaiBluffs => Meta {
+            MapMetaKind::JahaiBluffs => MapMeta {
                 name: "Jahai Bluffs".to_string(),
                 category: Category::LivingWorldSeason4,
                 schedules: vec![
@@ -656,7 +656,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::ThunderheadPeaks => Meta {
+            MapMetaKind::ThunderheadPeaks => MapMeta {
                 name: "Thunderhead Peaks".to_string(),
                 category: Category::LivingWorldSeason4,
                 schedules: vec![
@@ -674,7 +674,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::GrothmarValley => Meta {
+            MapMetaKind::GrothmarValley => MapMeta {
                 name: "Grothmar Valley".to_string(),
                 category: Category::TheIcebroodSaga,
                 schedules: vec![
@@ -704,7 +704,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::BjoraMarches => Meta {
+            MapMetaKind::BjoraMarches => MapMeta {
                 name: "Bjora Marches".to_string(),
                 category: Category::TheIcebroodSaga,
                 schedules: vec![
@@ -734,7 +734,7 @@ impl MetaKey {
                     },
                 ],
             },
-            MetaKey::Dragonstorm => Meta {
+            MapMetaKind::Dragonstorm => MapMeta {
                 name: "Dragonstorm".to_string(),
                 category: Category::TheIcebroodSaga,
                 schedules: vec![EventSchedule {

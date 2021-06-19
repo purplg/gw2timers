@@ -104,12 +104,12 @@ mod event_tests {
 mod meta_tests {
     use chrono::{Duration, NaiveTime};
 
-    use crate::meta::MetaKey;
+    use crate::meta::MapMetaKind;
 
     #[test]
     #[rustfmt::skip]
     fn test_meta_iter() {
-        let mut meta_iter = MetaKey::WorldBosses.into_iter().time(NaiveTime::from_hms(8, 41, 0)).peekable();
+        let mut meta_iter = MapMetaKind::WorldBosses.into_iter().time(NaiveTime::from_hms(8, 41, 0)).peekable();
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Fire Elemental");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Admiral Taidha Covington");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Great Jungle Wurm");
@@ -133,7 +133,7 @@ mod meta_tests {
     #[test]
     #[rustfmt::skip]
     fn test_hard_world_bosses() {
-        let mut meta_iter = MetaKey::HardWorldBosses.into_iter();
+        let mut meta_iter = MapMetaKind::HardWorldBosses.into_iter();
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Triple Trouble");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Karka Queen");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Tequatl the Sunless");
@@ -161,7 +161,7 @@ mod meta_tests {
 
     #[test]
     fn test_meta_iter_fns() {
-        let mut meta_iter = MetaKey::LakeDoric
+        let mut meta_iter = MapMetaKind::LakeDoric
             .into_iter()
             .time(NaiveTime::from_hms(4, 10, 0))
             .fast_foward(Duration::hours(1));
@@ -171,49 +171,49 @@ mod meta_tests {
 
     #[test]
     fn test_meta_now() {
-        let now = MetaKey::LeyLineAnomaly
+        let now = MapMetaKind::LeyLineAnomaly
             .into_iter()
             .time(NaiveTime::from_hms(0, 0, 0))
             .now();
         assert!(now.is_none());
 
-        let now = MetaKey::LeyLineAnomaly
+        let now = MapMetaKind::LeyLineAnomaly
             .into_iter()
             .time(NaiveTime::from_hms(0, 19, 0))
             .now();
         assert!(now.is_none());
 
-        let now = MetaKey::LeyLineAnomaly
+        let now = MapMetaKind::LeyLineAnomaly
             .into_iter()
             .time(NaiveTime::from_hms(0, 20, 0))
             .now();
         assert!(now.is_some());
 
-        let now = MetaKey::LeyLineAnomaly
+        let now = MapMetaKind::LeyLineAnomaly
             .into_iter()
             .time(NaiveTime::from_hms(0, 40, 0))
             .now();
         assert!(now.is_none());
 
-        let now = MetaKey::LeyLineAnomaly
+        let now = MapMetaKind::LeyLineAnomaly
             .into_iter()
             .time(NaiveTime::from_hms(2, 0, 0))
             .now();
         assert!(now.is_none());
 
-        let now = MetaKey::LeyLineAnomaly
+        let now = MapMetaKind::LeyLineAnomaly
             .into_iter()
             .time(NaiveTime::from_hms(2, 19, 0))
             .now();
         assert!(now.is_none());
 
-        let now = MetaKey::LeyLineAnomaly
+        let now = MapMetaKind::LeyLineAnomaly
             .into_iter()
             .time(NaiveTime::from_hms(2, 20, 0))
             .now();
         assert!(now.is_some());
 
-        let now = MetaKey::LeyLineAnomaly
+        let now = MapMetaKind::LeyLineAnomaly
             .into_iter()
             .time(NaiveTime::from_hms(2, 40, 0))
             .now();

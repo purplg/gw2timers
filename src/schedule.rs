@@ -31,6 +31,15 @@ impl<'a> IntoIterator for &'a EventSchedule {
     }
 }
 
+impl<'a> IntoIterator for &'a EventSchedule {
+    type Item = EventInstance;
+    type IntoIter = IntoIter<'a>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        IntoIter::new(self, Duration::zero())
+    }
+}
+
 impl Display for EventSchedule {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
