@@ -486,7 +486,7 @@ impl MapMetaKind {
                     },
                     EventSchedule {
                         name: "Pylons".to_string(),
-                        offset: NaiveTime::from_hms(1, 10, 0),
+                        offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(75),
                     },
