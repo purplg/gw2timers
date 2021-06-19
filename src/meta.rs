@@ -21,13 +21,6 @@ pub struct IntoIter {
 }
 
 impl IntoIter {
-    fn new<'a>(meta_key: &'a MetaKey, current_time: NaiveTime) -> Self {
-        Self {
-            current_time: Duration::seconds(current_time.num_seconds_from_midnight() as i64),
-            schedules: meta_key.info().schedules,
-        }
-    }
-
     /// Skip to a certain time of day
     pub fn time(mut self, time: NaiveTime) -> Self {
         self.current_time = Duration::seconds(time.num_seconds_from_midnight() as i64);
@@ -89,7 +82,10 @@ impl IntoIterator for MetaKey {
     type IntoIter = IntoIter;
 
     fn into_iter(self) -> Self::IntoIter {
-        IntoIter::new(&self, NaiveTime::from_hms(0, 0, 0))
+        IntoIter {
+            current_time: Duration::zero(),
+            schedules: self.info().schedules,
+        }
     }
 }
 
