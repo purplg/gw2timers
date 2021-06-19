@@ -23,20 +23,20 @@ mod tests {
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 20);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 80);
 
-        event_iter = event_iter.fast_foward(Duration::minutes(45));
+        event_iter = event_iter.fast_forward(Duration::minutes(45));
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 140);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 200);
 
         event_iter = event_iter.time(NaiveTime::from_hms(3, 0, 0));
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 200);
 
-        let mut event_iter = test_event_schedule.into_iter().fast_foward(Duration::minutes(0));
+        let mut event_iter = test_event_schedule.into_iter().fast_forward(Duration::minutes(0));
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 20);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 80);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 140);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 200);
 
-        let mut event_iter = test_event_schedule.into_iter().fast_foward(Duration::minutes(40));
+        let mut event_iter = test_event_schedule.into_iter().fast_forward(Duration::minutes(40));
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 80);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 140);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 200);

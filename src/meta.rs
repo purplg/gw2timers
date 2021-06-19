@@ -46,7 +46,7 @@ impl IntoIter {
             .filter_map(|event_schedules| {
                 event_schedules
                     .into_iter()
-                    .fast_foward(self.current_time)
+                    .fast_forward(self.current_time)
                     .now()
             })
             .next()
@@ -63,7 +63,7 @@ impl Iterator for IntoIter {
             .map(|event_schedule| {
                 event_schedule
                     .into_iter()
-                    .fast_foward(self.current_time)
+                    .fast_forward(self.current_time)
                     .next()
                     .unwrap()
             })
