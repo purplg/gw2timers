@@ -21,7 +21,7 @@ pub struct IntoIter {
 }
 
 impl IntoIter {
-    pub fn new<'a>(meta_key: &'a MetaKey, current_time: NaiveTime) -> Self {
+    fn new<'a>(meta_key: &'a MetaKey, current_time: NaiveTime) -> Self {
         Self {
             current_time: Duration::seconds(current_time.num_seconds_from_midnight() as i64),
             schedules: meta_key.info().schedules,
@@ -119,8 +119,9 @@ pub enum MetaKey {
 }
 
 impl MetaKey {
-    pub fn all_keys() -> Vec<MetaKey> {
-        vec![
+    /// Get all the map meta keys available
+    pub fn all_keys() -> [MetaKey; 22] {
+        [
             MetaKey::DayAndNight,
             MetaKey::WorldBosses,
             MetaKey::HardWorldBosses,
@@ -146,6 +147,7 @@ impl MetaKey {
         ]
     }
 
+    /// Get the schedule of this map meta event
     pub fn info(&self) -> Meta {
         match self {
             MetaKey::DayAndNight => Meta {

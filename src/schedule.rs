@@ -56,7 +56,7 @@ pub struct IntoIter<'a> {
 
 impl<'a> IntoIter<'_> {
     // Creates a new iterator starting from the previous occurance of the event
-    pub fn new(event_schedule: &'a EventSchedule, current_time: Duration) -> IntoIter {
+    fn new(event_schedule: &'a EventSchedule, current_time: Duration) -> IntoIter {
         // Must use Durations instead of NaiveTime because the event_end_time might be over 24 hours
         IntoIter {
             event_schedule,
@@ -77,20 +77,22 @@ impl<'a> IntoIter<'_> {
         self
     }
 
+    /// Get the event happening now, if any, at the current iteration of the iterator.
     pub fn now(&self) -> Option<EventInstance> {
-        let t = self.offset.num_minutes();
-        let o = Duration::seconds(self.event_schedule.offset.num_seconds_from_midnight() as i64)
-            .num_minutes();
-        let f = self.event_schedule.frequency.num_minutes();
-        let l = self.event_schedule.length.num_minutes();
-        let i = t / f;
-        let tr = t - i * f;
+        let time = self.offset.num_minutes();
+        let event_offset =
+            Duration::seconds(self.event_schedule.offset.num_seconds_from_midnight() as i64)
+                .num_minutes();
+        let freq = self.event_schedule.frequency.num_minutes();
+        let length = self.event_schedule.length.num_minutes();
+        let i = time / freq;
+        let relative_time = time - i * freq;
 
-        if tr < o || tr >= o + l {
+        if relative_time < event_offset || relative_time >= event_offset + length {
             return None;
         }
 
-        let offset = Duration::minutes(o + i * f);
+        let offset = Duration::minutes(event_offset + i * freq);
         Some(EventInstance {
             schedule: self.event_schedule.clone(),
             start_time: offset,
@@ -102,16 +104,21 @@ impl<'a> Iterator for IntoIter<'a> {
     type Item = EventInstance;
 
     fn next(&mut self) -> Option<EventInstance> {
-        let t = self.offset.num_minutes();
-        let o = Duration::seconds(self.event_schedule.offset.num_seconds_from_midnight() as i64)
-            .num_minutes();
-        let f = self.event_schedule.frequency.num_minutes();
-        let i = t / f;
-        let tr = t - i * f;
+        let time = self.offset.num_minutes();
+        let offset =
+            Duration::seconds(self.event_schedule.offset.num_seconds_from_midnight() as i64)
+                .num_minutes();
+        let freq = self.event_schedule.frequency.num_minutes();
+        let i = time / freq;
+        let relative_time = time - i * freq;
 
-        let offset = if tr < o { o } else { o + f };
+        let offset = if relative_time < offset {
+            offset
+        } else {
+            offset + freq
+        };
 
-        let offset = Duration::minutes(offset + i * f);
+        let offset = Duration::minutes(offset + i * freq);
 
         self.offset = offset;
 

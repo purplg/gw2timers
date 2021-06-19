@@ -1,17 +1,17 @@
-use std::fmt::Display;
+use std::fmt::Debug;
 
 use chrono::Duration;
 
 use crate::schedule::EventSchedule;
 
 /// A specific occurance of a map meta event
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct EventInstance {
     pub schedule: EventSchedule,
     pub start_time: Duration,
 }
 
-impl Display for EventInstance {
+impl Debug for EventInstance {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self.schedule.fmt(f) {
             Err(e) => Err(e),
