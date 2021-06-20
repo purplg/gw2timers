@@ -164,7 +164,7 @@ mod meta_tests {
         let mut meta_iter = MapMetaKind::LakeDoric
             .into_iter()
             .time(NaiveTime::from_hms(4, 10, 0))
-            .fast_foward(Duration::hours(1));
+            .fast_forward(Duration::hours(1));
         assert_eq!(meta_iter.next().unwrap().schedule.name, "New Loamhurst");
         assert_eq!(meta_iter.next().unwrap().schedule.name, "Noran's Homestead");
     }
@@ -218,5 +218,55 @@ mod meta_tests {
             .time(NaiveTime::from_hms(2, 40, 0))
             .now();
         assert!(now.is_none());
+    }
+}
+
+#[cfg(test)]
+mod readme_tests {
+    use chrono::{Duration, NaiveTime};
+
+    use crate::{event::EventInstance, meta::MapMetaKind};
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_readme_example() {
+        let next_5_auricbasin_events =
+            MapMetaKind::AuricBasin
+                .into_iter()
+                .take(5)
+                .collect::<Vec<EventInstance>>();
+
+        assert_eq!(next_5_auricbasin_events.get(0).unwrap().schedule.name, "Challenges");
+        assert_eq!(next_5_auricbasin_events.get(1).unwrap().schedule.name, "Octovine");
+        assert_eq!(next_5_auricbasin_events.get(2).unwrap().schedule.name, "Reset");
+        assert_eq!(next_5_auricbasin_events.get(3).unwrap().schedule.name, "Pylons");
+        assert_eq!(next_5_auricbasin_events.get(4).unwrap().schedule.name, "Challenges");
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_readme_usage() {
+        let mut tangled_depths_5pm_utc =
+            MapMetaKind::TangledDepths
+                .into_iter()
+                .time(NaiveTime::from_hms(5, 0, 0));
+
+        assert_eq!(tangled_depths_5pm_utc.next().unwrap().schedule.name, "Prep");
+        assert_eq!(tangled_depths_5pm_utc.next().unwrap().schedule.name, "Chak Gerent");
+        assert_eq!(tangled_depths_5pm_utc.next().unwrap().schedule.name, "Help the Outposts");
+
+        let mut tangled_depths_6pm_utc =
+            tangled_depths_5pm_utc
+            .fast_forward(Duration::hours(1));
+
+        assert_eq!(tangled_depths_6pm_utc.next().unwrap().schedule.name, "Prep");
+        assert_eq!(tangled_depths_6pm_utc.next().unwrap().schedule.name, "Chak Gerent");
+        assert_eq!(tangled_depths_6pm_utc.next().unwrap().schedule.name, "Help the Outposts");
+
+        let tangled_depths_event_at_6pm_utc: Option<EventInstance> =
+            tangled_depths_6pm_utc
+            .now();
+
+        assert_eq!(tangled_depths_event_at_6pm_utc.unwrap().schedule.name, "Help the Outposts");
     }
 }

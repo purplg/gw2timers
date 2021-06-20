@@ -8,24 +8,42 @@ Getting the next 10 upcoming events in Auric Basin
 
 ```rust
 fn main() {
-    let next_10_auricbasin_events =
-        MetaIter::new(MetaKey::AuricBasin, Utc::now().time())
-            .take(10)
+    let next_5_auricbasin_events =
+        MapMetaKind::AuricBasin
+            .into_iter()
+            .take(5)
             .collect::<Vec<EventInstance>>();
 }
 ```
 
 # Usage
 
-Create an iterator using `MetaIter` and providing it a `MetaKey` and the time you want to start the iterator at.
+Create an iterator by calling `into_iter()` on a `MapMetaKind` and then you can set time you want to start the iterating at then use it like any other iterator. The iterator will never return `None` and will iterate forever always returning the next event in time.
+
+## Create an iterator at a starting time
 
 ```rust
-let desert_highlands_events = MetaIter::new(MetaKey::DesertHighlands, NaiveTime::from_hms(5, 20, 0));
+let mut tangled_depths_5pm_utc =
+    MapMetaKind::TangledDepths
+        .into_iter()
+        .time(NaiveTime::from_hms(5, 0, 0));
 ```
 
-Then use it like any other iterator.
+## Skip forward through time
 
-It's important to `take` or otherwise put a limit on the iterator since the iterator will never return `None`.
+```rust
+let mut tangled_depths_6pm_utc =
+    tangled_depths_5pm_utc
+    .fast_forward(Duration::hours(1));
+```
+
+## Get the event active at that time in the iterator
+
+```rust
+let tangled_depths_event_at_6pm_utc: Option<EventInstance> =
+    tangled_depths_6pm_utc
+    .now();
+```
 
 # License
 
