@@ -66,12 +66,11 @@ impl Iterator for IntoIter {
         let next_event: EventInstance = self
             .schedules
             .iter()
-            .map(|event_schedule| {
+            .filter_map(|event_schedule| {
                 event_schedule
                     .into_iter()
                     .fast_forward(self.current_time)
                     .next()
-                    .unwrap()
             })
             .reduce(|event_a, event_b| {
                 if event_b.start_time < event_a.start_time {
