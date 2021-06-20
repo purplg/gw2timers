@@ -20,7 +20,7 @@ fn main() {
 
 Create an iterator by calling `into_iter()` on a `MapMetaKind` and then you can set time you want to start the iterating at then use it like any other iterator. The iterator will never return `None` and will iterate forever always returning the next event in time.
 
-## Create an iterator at a starting time
+## Create an iterator starting at a time
 
 ```rust
 let mut tangled_depths_5pm_utc =
