@@ -2,7 +2,7 @@
 
 A simple way to iterate and collect Guild Wars 2 map meta event times
 
-# Example
+## Example
 
 Getting the next 10 upcoming events in Auric Basin
 
@@ -16,11 +16,11 @@ fn main() {
 }
 ```
 
-# Usage
+## Usage
 
 Create an iterator by calling `into_iter()` on a `MapMetaKind` and then you can set time you want to start the iterating at then use it like any other iterator. The iterator will never return `None` and will iterate forever always returning the next event in time.
 
-## Create an iterator starting at a time
+### Create an iterator starting at a time
 
 ```rust
 let mut tangled_depths_5pm_utc =
@@ -29,7 +29,7 @@ let mut tangled_depths_5pm_utc =
         .time(NaiveTime::from_hms(5, 0, 0));
 ```
 
-## Skip forward through time
+### Skip forward through time
 
 ```rust
 let mut tangled_depths_6pm_utc =
@@ -37,7 +37,7 @@ let mut tangled_depths_6pm_utc =
     .fast_forward(Duration::hours(1));
 ```
 
-## Get the event active at that time in the iterator
+### Get the event active at that time in the iterator
 
 ```rust
 let tangled_depths_event_at_6pm_utc: Option<EventInstance> =
