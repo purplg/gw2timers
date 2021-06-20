@@ -99,6 +99,26 @@ impl IntoIterator for MapMetaKind {
     }
 }
 
+impl<'a> IntoIterator for &'a MapMetaKind {
+    type Item = EventInstance;
+
+    type IntoIter = IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.info().into_iter()
+    }
+}
+
+impl<'a> IntoIterator for &'a mut MapMetaKind {
+    type Item = EventInstance;
+
+    type IntoIter = IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.info().into_iter()
+    }
+}
+
 pub enum MapMetaKind {
     DayAndNight,
     WorldBosses,
