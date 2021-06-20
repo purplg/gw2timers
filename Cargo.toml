@@ -1,7 +1,7 @@
 [package]
 name = "gw2timers"
 description = "Iterate and collect Guild Wars 2 map meta event times"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Ben Whitley <dev@purplg.com>"]
 edition = "2018"
 license = "MIT"
