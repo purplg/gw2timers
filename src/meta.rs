@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub};
+use std::ops::Add;
 
 use chrono::{Duration, NaiveTime, Timelike};
 
@@ -74,10 +74,7 @@ impl Iterator for IntoIter {
                     .unwrap()
             })
             .reduce(|event_a, event_b| {
-                let time_until_a = event_a.start_time.sub(self.current_time);
-                let time_until_b = event_b.start_time.sub(self.current_time);
-
-                if time_until_b < time_until_a {
+                if event_b.start_time < event_a.start_time {
                     event_b
                 } else {
                     event_a
