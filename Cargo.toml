@@ -5,8 +5,8 @@ version = "0.3.1"
 authors = ["Ben Whitley <dev@purplg.com>"]
 edition = "2018"
 license = "MIT"
-homepage = "https://gitlab.com/purplg/gw2timers"
-repository = "https://gitlab.com/purplg/gw2timers"
+homepage = "https://github.com/purplg/gw2timers"
+repository = "https://github.com/purplg/gw2timers"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
