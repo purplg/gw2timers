@@ -31,7 +31,7 @@ impl<'a> IntoIterator for &'a EventSchedule {
     }
 }
 
-impl Display for EventSchedule {
+impl Debug for EventSchedule {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
