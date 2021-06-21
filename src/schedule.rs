@@ -118,13 +118,11 @@ impl<'a> Iterator for IntoIter<'a> {
             offset + freq
         };
 
-        let offset = Duration::minutes(offset + i * freq);
-
-        self.offset = offset;
+        self.offset = Duration::minutes(offset + i * freq);
 
         Some(EventInstance {
             schedule: self.event_schedule.clone(),
-            start_time: offset,
+            start_time: self.offset,
         })
     }
 }
