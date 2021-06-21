@@ -246,27 +246,27 @@ mod readme_tests {
     #[test]
     #[rustfmt::skip]
     fn test_readme_usage() {
-        let mut tangled_depths_5pm_utc =
+        let mut tangled_depths_5am_utc =
             MapMetaKind::TangledDepths
                 .into_iter()
                 .time(NaiveTime::from_hms(5, 0, 0));
 
-        assert_eq!(tangled_depths_5pm_utc.next().unwrap().schedule.name, "Prep");
-        assert_eq!(tangled_depths_5pm_utc.next().unwrap().schedule.name, "Chak Gerent");
-        assert_eq!(tangled_depths_5pm_utc.next().unwrap().schedule.name, "Help the Outposts");
+        assert_eq!(tangled_depths_5am_utc.next().unwrap().schedule.name, "Prep");
+        assert_eq!(tangled_depths_5am_utc.next().unwrap().schedule.name, "Chak Gerent");
+        assert_eq!(tangled_depths_5am_utc.next().unwrap().schedule.name, "Help the Outposts");
 
-        let mut tangled_depths_6pm_utc =
-            tangled_depths_5pm_utc
+        let mut tangled_depths_6am_utc =
+            tangled_depths_5am_utc
             .fast_forward(Duration::hours(1));
 
-        assert_eq!(tangled_depths_6pm_utc.next().unwrap().schedule.name, "Prep");
-        assert_eq!(tangled_depths_6pm_utc.next().unwrap().schedule.name, "Chak Gerent");
-        assert_eq!(tangled_depths_6pm_utc.next().unwrap().schedule.name, "Help the Outposts");
+        assert_eq!(tangled_depths_6am_utc.next().unwrap().schedule.name, "Prep");
+        assert_eq!(tangled_depths_6am_utc.next().unwrap().schedule.name, "Chak Gerent");
+        assert_eq!(tangled_depths_6am_utc.next().unwrap().schedule.name, "Help the Outposts");
 
-        let tangled_depths_event_at_6pm_utc: Option<EventInstance> =
-            tangled_depths_6pm_utc
+        let tangled_depths_event_at_6am_utc: Option<EventInstance> =
+            tangled_depths_6am_utc
             .now();
 
-        assert_eq!(tangled_depths_event_at_6pm_utc.unwrap().schedule.name, "Help the Outposts");
+        assert_eq!(tangled_depths_event_at_6am_utc.unwrap().schedule.name, "Help the Outposts");
     }
 }
