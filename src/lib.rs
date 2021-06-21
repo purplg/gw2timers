@@ -13,7 +13,7 @@ mod event_tests {
     #[rustfmt::skip]
     fn test_event_iter() {
         let test_event_schedule = EventSchedule {
-            name: "Reoccurring event".to_string(),
+            name: "Reoccurring event",
             offset: NaiveTime::from_hms(0, 20, 0),
             frequency: Duration::hours(1),
             length: Duration::minutes(15),
@@ -44,7 +44,7 @@ mod event_tests {
     #[test]
     fn test_event_schedule_now() {
         let test_event_schedule = EventSchedule {
-            name: "Reoccurring event".to_string(),
+            name: "Reoccurring event",
             offset: NaiveTime::from_hms(1, 45, 0),
             frequency: Duration::hours(3),
             length: Duration::minutes(30),

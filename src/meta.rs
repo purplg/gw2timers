@@ -7,7 +7,7 @@ use crate::schedule::EventSchedule;
 use super::{category::Category, event::EventInstance};
 
 pub struct MapMeta {
-    pub name: String,
+    pub name: &'static str,
     pub category: Category,
     pub schedules: Vec<EventSchedule>,
 }
@@ -173,29 +173,29 @@ impl MapMetaKind {
     pub fn info(&self) -> MapMeta {
         match self {
             MapMetaKind::DayAndNight => MapMeta {
-                name: "Day and Night".to_string(),
+                name: "Day and Night",
                 category: Category::CoreTyria,
                 schedules: vec![
                     EventSchedule {
-                        name: "Dawn".to_string(),
+                        name: "Dawn",
                         offset: NaiveTime::from_hms(0, 25, 0),
                         length: Duration::minutes(5),
                         frequency: Duration::hours(2),
                     },
                     EventSchedule {
-                        name: "Day".to_string(),
+                        name: "Day",
                         offset: NaiveTime::from_hms(0, 30, 0),
                         length: Duration::minutes(70),
                         frequency: Duration::hours(2),
                     },
                     EventSchedule {
-                        name: "Dusk".to_string(),
+                        name: "Dusk",
                         offset: NaiveTime::from_hms(1, 40, 0),
                         length: Duration::minutes(5),
                         frequency: Duration::hours(2),
                     },
                     EventSchedule {
-                        name: "Night".to_string(),
+                        name: "Night",
                         offset: NaiveTime::from_hms(1, 45, 0),
                         length: Duration::minutes(40),
                         frequency: Duration::hours(2),
@@ -203,65 +203,65 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::WorldBosses => MapMeta {
-                name: "World Bosses".to_string(),
+                name: "World Bosses",
                 category: Category::CoreTyria,
                 schedules: vec![
                     EventSchedule {
-                        name: "Admiral Taidha Covington".to_string(),
+                        name: "Admiral Taidha Covington",
                         offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Svanir Shaman Chief".to_string(),
+                        name: "Svanir Shaman Chief",
                         offset: NaiveTime::from_hms(0, 15, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Megadestroyer".to_string(),
+                        name: "Megadestroyer",
                         offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Fire Elemental".to_string(),
+                        name: "Fire Elemental",
                         offset: NaiveTime::from_hms(0, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "The Shatterer".to_string(),
+                        name: "The Shatterer",
                         offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Great Jungle Wurm".to_string(),
+                        name: "Great Jungle Wurm",
                         offset: NaiveTime::from_hms(1, 15, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Modniir Ulgoth".to_string(),
+                        name: "Modniir Ulgoth",
                         offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Shadow Behemoth".to_string(),
+                        name: "Shadow Behemoth",
                         offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Golem Mark II".to_string(),
+                        name: "Golem Mark II",
                         offset: NaiveTime::from_hms(2, 0, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Claw of Jormag".to_string(),
+                        name: "Claw of Jormag",
                         offset: NaiveTime::from_hms(2, 30, 0),
                         frequency: Duration::hours(3),
                         length: Duration::minutes(15),
@@ -269,113 +269,113 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::HardWorldBosses => MapMeta {
-                name: "Hard World Bosses".to_string(),
+                name: "Hard World Bosses",
                 category: Category::CoreTyria,
                 schedules: vec![
                     EventSchedule {
-                        name: "Tequatl the Sunless".to_string(),
+                        name: "Tequatl the Sunless",
                         offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Triple Trouble".to_string(),
+                        name: "Triple Trouble",
                         offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Karka Queen".to_string(),
+                        name: "Karka Queen",
                         offset: NaiveTime::from_hms(2, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Tequatl the Sunless".to_string(),
+                        name: "Tequatl the Sunless",
                         offset: NaiveTime::from_hms(3, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Triple Trouble".to_string(),
+                        name: "Triple Trouble",
                         offset: NaiveTime::from_hms(4, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Karka Queen".to_string(),
+                        name: "Karka Queen",
                         offset: NaiveTime::from_hms(6, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Tequatl the Sunless".to_string(),
+                        name: "Tequatl the Sunless",
                         offset: NaiveTime::from_hms(7, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Triple Trouble".to_string(),
+                        name: "Triple Trouble",
                         offset: NaiveTime::from_hms(8, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Karka Queen".to_string(),
+                        name: "Karka Queen",
                         offset: NaiveTime::from_hms(10, 30, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Tequatl the Sunless".to_string(),
+                        name: "Tequatl the Sunless",
                         offset: NaiveTime::from_hms(11, 30, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Triple Trouble".to_string(),
+                        name: "Triple Trouble",
                         offset: NaiveTime::from_hms(12, 30, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Karka Queen".to_string(),
+                        name: "Karka Queen",
                         offset: NaiveTime::from_hms(15, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Tequatl the Sunless".to_string(),
+                        name: "Tequatl the Sunless",
                         offset: NaiveTime::from_hms(16, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Triple Trouble".to_string(),
+                        name: "Triple Trouble",
                         offset: NaiveTime::from_hms(17, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Karka Queen".to_string(),
+                        name: "Karka Queen",
                         offset: NaiveTime::from_hms(18, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Tequatl the Sunless".to_string(),
+                        name: "Tequatl the Sunless",
                         offset: NaiveTime::from_hms(19, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Triple Trouble".to_string(),
+                        name: "Triple Trouble",
                         offset: NaiveTime::from_hms(20, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Karka Queen".to_string(),
+                        name: "Karka Queen",
                         offset: NaiveTime::from_hms(23, 0, 0),
                         frequency: Duration::hours(24),
                         length: Duration::minutes(30),
@@ -383,23 +383,23 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::LeyLineAnomaly => MapMeta {
-                name: "Ley-Line Anomaly".to_string(),
+                name: "Ley-Line Anomaly",
                 category: Category::CoreTyria,
                 schedules: vec![
                     EventSchedule {
-                        name: "Timberline Falls".to_string(),
+                        name: "Timberline Falls",
                         offset: NaiveTime::from_hms(0, 20, 0),
                         frequency: Duration::hours(6),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
-                        name: "Iron Marches".to_string(),
+                        name: "Iron Marches",
                         offset: NaiveTime::from_hms(2, 20, 0),
                         frequency: Duration::hours(6),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
-                        name: "Gendarran Fields".to_string(),
+                        name: "Gendarran Fields",
                         offset: NaiveTime::from_hms(4, 20, 0),
                         frequency: Duration::hours(6),
                         length: Duration::minutes(20),
@@ -407,29 +407,29 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::PVPTournaments => MapMeta {
-                name: "PvP Tournaments".to_string(),
+                name: "PvP Tournaments",
                 category: Category::CoreTyria,
                 schedules: vec![
                     EventSchedule {
-                        name: "Balthazar's Brawl".to_string(),
+                        name: "Balthazar's Brawl",
                         offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(12),
                         length: Duration::hours(1),
                     },
                     EventSchedule {
-                        name: "Grenth's Game".to_string(),
+                        name: "Grenth's Game",
                         offset: NaiveTime::from_hms(3, 0, 0),
                         frequency: Duration::hours(12),
                         length: Duration::hours(1),
                     },
                     EventSchedule {
-                        name: "Melandru's Matchup".to_string(),
+                        name: "Melandru's Matchup",
                         offset: NaiveTime::from_hms(6, 0, 0),
                         frequency: Duration::hours(12),
                         length: Duration::hours(1),
                     },
                     EventSchedule {
-                        name: "Lyssa's Legions".to_string(),
+                        name: "Lyssa's Legions",
                         offset: NaiveTime::from_hms(9, 0, 0),
                         frequency: Duration::hours(12),
                         length: Duration::hours(1),
@@ -437,17 +437,17 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::DryTop => MapMeta {
-                name: "Dry Top".to_string(),
+                name: "Dry Top",
                 category: Category::LivingWorldSeason2,
                 schedules: vec![
                     EventSchedule {
-                        name: "Crash Site".to_string(),
+                        name: "Crash Site",
                         offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(1),
                         length: Duration::minutes(40),
                     },
                     EventSchedule {
-                        name: "Sandstorm".to_string(),
+                        name: "Sandstorm",
                         offset: NaiveTime::from_hms(0, 40, 0),
                         frequency: Duration::hours(1),
                         length: Duration::minutes(20),
@@ -455,23 +455,23 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::VerdantBrink => MapMeta {
-                name: "Verdant Brink".to_string(),
+                name: "Verdant Brink",
                 category: Category::HeartOfThorns,
                 schedules: vec![
                     EventSchedule {
-                        name: "Night: Night and the Enemy".to_string(),
+                        name: "Night: Night and the Enemy",
                         offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(25),
                     },
                     EventSchedule {
-                        name: "Night Bosses".to_string(),
+                        name: "Night Bosses",
                         offset: NaiveTime::from_hms(10, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
-                        name: "Day: Securing Verdant Brink".to_string(),
+                        name: "Day: Securing Verdant Brink",
                         offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::hours(1).add(Duration::minutes(15)),
@@ -479,29 +479,29 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::AuricBasin => MapMeta {
-                name: "Auric Basin".to_string(),
+                name: "Auric Basin",
                 category: Category::HeartOfThorns,
                 schedules: vec![
                     EventSchedule {
-                        name: "Challenges".to_string(),
+                        name: "Challenges",
                         offset: NaiveTime::from_hms(0, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Octovine".to_string(),
+                        name: "Octovine",
                         offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
-                        name: "Reset".to_string(),
+                        name: "Reset",
                         offset: NaiveTime::from_hms(1, 20, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(10),
                     },
                     EventSchedule {
-                        name: "Pylons".to_string(),
+                        name: "Pylons",
                         offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(75),
@@ -509,23 +509,23 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::TangledDepths => MapMeta {
-                name: "Tangled Depths".to_string(),
+                name: "Tangled Depths",
                 category: Category::HeartOfThorns,
                 schedules: vec![
                     EventSchedule {
-                        name: "Prep".to_string(),
+                        name: "Prep",
                         offset: NaiveTime::from_hms(0, 25, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(5),
                     },
                     EventSchedule {
-                        name: "Chak Gerent".to_string(),
+                        name: "Chak Gerent",
                         offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
-                        name: "Help the Outposts".to_string(),
+                        name: "Help the Outposts",
                         offset: NaiveTime::from_hms(0, 50, 0),
                         frequency: Duration::hours(2),
                         length: Duration::hours(1).add(Duration::minutes(35)),
@@ -533,33 +533,33 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::DragonsStand => MapMeta {
-                name: "Dragon's Stand".to_string(),
+                name: "Dragon's Stand",
                 category: Category::HeartOfThorns,
                 schedules: vec![EventSchedule {
-                    name: "Start advancing on the Blighting Towers".to_string(),
+                    name: "Start advancing on the Blighting Towers",
                     offset: NaiveTime::from_hms(1, 30, 0),
                     frequency: Duration::hours(2),
                     length: Duration::hours(2),
                 }],
             },
             MapMetaKind::LakeDoric => MapMeta {
-                name: "Lake Doric".to_string(),
+                name: "Lake Doric",
                 category: Category::LivingWorldSeason3,
                 schedules: vec![
                     EventSchedule {
-                        name: "Noran's Homestead".to_string(),
+                        name: "Noran's Homestead",
                         offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Saidra's Haven".to_string(),
+                        name: "Saidra's Haven",
                         offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(45),
                     },
                     EventSchedule {
-                        name: "New Loamhurst".to_string(),
+                        name: "New Loamhurst",
                         offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(45),
@@ -567,17 +567,17 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::CrystalOasis => MapMeta {
-                name: "Crystal Oasis".to_string(),
+                name: "Crystal Oasis",
                 category: Category::PathOfFire,
                 schedules: vec![
                     EventSchedule {
-                        name: "Rounds 1 to 3".to_string(),
+                        name: "Rounds 1 to 3",
                         offset: NaiveTime::from_hms(0, 5, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(10),
                     },
                     EventSchedule {
-                        name: "Pinata/Reset".to_string(),
+                        name: "Pinata/Reset",
                         offset: NaiveTime::from_hms(0, 20, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(10),
@@ -585,27 +585,27 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::DesertHighlands => MapMeta {
-                name: "Desert Highlands".to_string(),
+                name: "Desert Highlands",
                 category: Category::PathOfFire,
                 schedules: vec![EventSchedule {
-                    name: "Buried Treasure".to_string(),
+                    name: "Buried Treasure",
                     offset: NaiveTime::from_hms(1, 0, 0),
                     frequency: Duration::hours(2),
                     length: Duration::minutes(20),
                 }],
             },
             MapMetaKind::ElonRiverlands => MapMeta {
-                name: "Elon Riverlands".to_string(),
+                name: "Elon Riverlands",
                 category: Category::PathOfFire,
                 schedules: vec![
                     EventSchedule {
-                        name: "The Path to Ascension: Augury Rock".to_string(),
+                        name: "The Path to Ascension: Augury Rock",
                         offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(25),
                     },
                     EventSchedule {
-                        name: "Doppelganger".to_string(),
+                        name: "Doppelganger",
                         offset: NaiveTime::from_hms(1, 50, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
@@ -613,23 +613,23 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::TheDesolation => MapMeta {
-                name: "The Desolation".to_string(),
+                name: "The Desolation",
                 category: Category::PathOfFire,
                 schedules: vec![
                     EventSchedule {
-                        name: "Junudu Rising".to_string(),
+                        name: "Junudu Rising",
                         offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
-                        name: "Maws of Torment".to_string(),
+                        name: "Maws of Torment",
                         offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
-                        name: "Junudu Rising".to_string(),
+                        name: "Junudu Rising",
                         offset: NaiveTime::from_hms(1, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
@@ -637,17 +637,17 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::DomainOfVabbi => MapMeta {
-                name: "Domain of Vabbi".to_string(),
+                name: "Domain of Vabbi",
                 category: Category::PathOfFire,
                 schedules: vec![
                     EventSchedule {
-                        name: "Forged with Fire".to_string(),
+                        name: "Forged with Fire",
                         offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(1),
                         length: Duration::minutes(30),
                     },
                     EventSchedule {
-                        name: "Serpents' Ire".to_string(),
+                        name: "Serpents' Ire",
                         offset: NaiveTime::from_hms(0, 30, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(30),
@@ -655,27 +655,27 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::DomainOfIstan => MapMeta {
-                name: "Domain of Istan".to_string(),
+                name: "Domain of Istan",
                 category: Category::LivingWorldSeason4,
                 schedules: vec![EventSchedule {
-                    name: "Palawadan".to_string(),
+                    name: "Palawadan",
                     offset: NaiveTime::from_hms(1, 45, 0),
                     frequency: Duration::hours(2),
                     length: Duration::minutes(30),
                 }],
             },
             MapMetaKind::JahaiBluffs => MapMeta {
-                name: "Jahai Bluffs".to_string(),
+                name: "Jahai Bluffs",
                 category: Category::LivingWorldSeason4,
                 schedules: vec![
                     EventSchedule {
-                        name: "Escorts".to_string(),
+                        name: "Escorts",
                         offset: NaiveTime::from_hms(1, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Death-Branded Shatterer".to_string(),
+                        name: "Death-Branded Shatterer",
                         offset: NaiveTime::from_hms(1, 15, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
@@ -683,17 +683,17 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::ThunderheadPeaks => MapMeta {
-                name: "Thunderhead Peaks".to_string(),
+                name: "Thunderhead Peaks",
                 category: Category::LivingWorldSeason4,
                 schedules: vec![
                     EventSchedule {
-                        name: "The Oil Floes".to_string(),
+                        name: "The Oil Floes",
                         offset: NaiveTime::from_hms(0, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Thunderhead Keep".to_string(),
+                        name: "Thunderhead Keep",
                         offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
@@ -701,29 +701,29 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::GrothmarValley => MapMeta {
-                name: "Grothmar Valley".to_string(),
+                name: "Grothmar Valley",
                 category: Category::TheIcebroodSaga,
                 schedules: vec![
                     EventSchedule {
-                        name: "Effigy".to_string(),
+                        name: "Effigy",
                         offset: NaiveTime::from_hms(0, 10, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Doomlore Shrine".to_string(),
+                        name: "Doomlore Shrine",
                         offset: NaiveTime::from_hms(0, 38, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(22),
                     },
                     EventSchedule {
-                        name: "Ooze Pits".to_string(),
+                        name: "Ooze Pits",
                         offset: NaiveTime::from_hms(1, 5, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
                     },
                     EventSchedule {
-                        name: "Metal Concert".to_string(),
+                        name: "Metal Concert",
                         offset: NaiveTime::from_hms(1, 40, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(20),
@@ -731,29 +731,29 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::BjoraMarches => MapMeta {
-                name: "Bjora Marches".to_string(),
+                name: "Bjora Marches",
                 category: Category::TheIcebroodSaga,
                 schedules: vec![
                     EventSchedule {
-                        name: "Shards and Construct".to_string(),
+                        name: "Shards and Construct",
                         offset: NaiveTime::from_hms(0, 0, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(5),
                     },
                     EventSchedule {
-                        name: "Icebrood Champions".to_string(),
+                        name: "Icebrood Champions",
                         offset: NaiveTime::from_hms(0, 5, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
                     },
                     EventSchedule {
-                        name: "Drakkar and Spirits of the Wild".to_string(),
+                        name: "Drakkar and Spirits of the Wild",
                         offset: NaiveTime::from_hms(1, 5, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(35),
                     },
                     EventSchedule {
-                        name: "Raven Shrines".to_string(),
+                        name: "Raven Shrines",
                         offset: NaiveTime::from_hms(1, 45, 0),
                         frequency: Duration::hours(2),
                         length: Duration::minutes(15),
@@ -761,10 +761,10 @@ impl MapMetaKind {
                 ],
             },
             MapMetaKind::Dragonstorm => MapMeta {
-                name: "Dragonstorm".to_string(),
+                name: "Dragonstorm",
                 category: Category::TheIcebroodSaga,
                 schedules: vec![EventSchedule {
-                    name: "Dragonstorm (Public)".to_string(),
+                    name: "Dragonstorm (Public)",
                     offset: NaiveTime::from_hms(1, 0, 0),
                     frequency: Duration::hours(2),
                     length: Duration::minutes(20),

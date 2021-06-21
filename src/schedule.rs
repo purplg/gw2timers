@@ -1,16 +1,16 @@
 //! Represents the schedule of a single event in a maps' [meta]
 
-use std::{fmt::Display, ops::Add};
+use std::{fmt::Debug, ops::Add};
 
 use chrono::{Duration, NaiveTime, Timelike};
 
 use crate::event::EventInstance;
 
 /// The schedule of a map meta event
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct EventSchedule {
     /// The name of the event
-    pub name: String,
+    pub name: &'static str,
 
     /// The offset from UTC 00:00 the first event occurs
     pub offset: NaiveTime,
