@@ -22,9 +22,15 @@ pub struct EventSchedule {
     pub length: Duration,
 }
 
-impl<'a> IntoIterator for &'a EventSchedule {
+impl EventSchedule {
+    pub fn iter(&self) -> Iter {
+        Iter::new(self, Duration::zero())
+    }
+}
+
+impl IntoIterator for EventSchedule {
     type Item = EventInstance;
-    type IntoIter = IntoIter<'a>;
+    type IntoIter = IntoIter;
 
     fn into_iter(self) -> Self::IntoIter {
         IntoIter::new(self, Duration::zero())
@@ -49,14 +55,14 @@ impl Debug for EventSchedule {
 /// The first call to `next()` will return the currently active event (i.e. the requested time is
 /// between the [EventInstance]'s start and end time), if applicable, or the next event if there
 /// isn't one currently active
-pub struct IntoIter<'a> {
-    event_schedule: &'a EventSchedule,
+pub struct IntoIter {
+    event_schedule: EventSchedule,
     offset: Duration,
 }
 
-impl<'a> IntoIter<'_> {
+impl IntoIter {
     // Creates a new iterator starting from the previous occurance of the event
-    fn new(event_schedule: &'a EventSchedule, current_time: Duration) -> IntoIter {
+    fn new(event_schedule: EventSchedule, current_time: Duration) -> IntoIter {
         // Must use Durations instead of NaiveTime because the event_end_time might be over 24 hours
         IntoIter {
             event_schedule,
@@ -66,8 +72,7 @@ impl<'a> IntoIter<'_> {
 
     /// Skip to a certain time of day
     pub fn time(mut self, time: NaiveTime) -> Self {
-        let current_time = Duration::seconds(time.num_seconds_from_midnight() as i64);
-        self.offset = current_time;
+        self.offset = Duration::seconds(time.num_seconds_from_midnight() as i64);
         self
     }
 
@@ -80,19 +85,18 @@ impl<'a> IntoIter<'_> {
     /// Get the event happening now, if any, at the current iteration of the iterator.
     pub fn now(&self) -> Option<EventInstance> {
         let time = self.offset.num_minutes();
-        let event_offset =
-            Duration::seconds(self.event_schedule.offset.num_seconds_from_midnight() as i64)
-                .num_minutes();
+        let offset = self.event_schedule.offset.num_seconds_from_midnight() as i64 / 60;
         let freq = self.event_schedule.frequency.num_minutes();
         let length = self.event_schedule.length.num_minutes();
         let i = time / freq;
         let relative_time = time - i * freq;
 
-        if relative_time < event_offset || relative_time >= event_offset + length {
+        if relative_time < offset || relative_time >= offset + length {
             return None;
         }
 
-        let offset = Duration::minutes(event_offset + i * freq);
+        let offset = Duration::minutes(offset + i * freq);
+
         Some(EventInstance {
             schedule: self.event_schedule.clone(),
             start_time: offset,
@@ -100,14 +104,158 @@ impl<'a> IntoIter<'_> {
     }
 }
 
-impl<'a> Iterator for IntoIter<'a> {
+impl Iterator for IntoIter {
     type Item = EventInstance;
 
     fn next(&mut self) -> Option<EventInstance> {
         let time = self.offset.num_minutes();
-        let offset =
-            Duration::seconds(self.event_schedule.offset.num_seconds_from_midnight() as i64)
-                .num_minutes();
+        let offset = self.event_schedule.offset.num_seconds_from_midnight() as i64 / 60;
+        let freq = self.event_schedule.frequency.num_minutes();
+        let i = time / freq;
+        let relative_time = time - i * freq;
+
+        let offset = if relative_time < offset {
+            offset
+        } else {
+            offset + freq
+        };
+
+        self.offset = Duration::minutes(offset + i * freq);
+
+        Some(EventInstance {
+            schedule: self.event_schedule.clone(),
+            start_time: self.offset,
+        })
+    }
+}
+
+pub struct Iter<'a> {
+    event_schedule: &'a EventSchedule,
+    offset: Duration,
+}
+
+impl<'a> Iter<'_> {
+    // Creates a new iterator starting from the previous occurance of the event
+    fn new(event_schedule: &'a EventSchedule, current_time: Duration) -> Iter {
+        // Must use Durations instead of NaiveTime because the event_end_time might be over 24 hours
+        Iter {
+            event_schedule,
+            offset: current_time,
+        }
+    }
+
+    /// Skip to a certain time of day
+    pub fn time(mut self, time: NaiveTime) -> Self {
+        self.offset = Duration::seconds(time.num_seconds_from_midnight() as i64);
+        self
+    }
+
+    /// Skip forward an amount of time
+    pub fn fast_forward(mut self, amount: Duration) -> Self {
+        self.offset = self.offset.add(amount);
+        self
+    }
+
+    /// Get the event happening now, if any, at the current iteration of the iterator.
+    pub fn now(&self) -> Option<EventInstance> {
+        let time = self.offset.num_minutes();
+        let offset = self.event_schedule.offset.num_seconds_from_midnight() as i64 / 60;
+        let freq = self.event_schedule.frequency.num_minutes();
+        let length = self.event_schedule.length.num_minutes();
+        let i = time / freq;
+        let relative_time = time - i * freq;
+
+        if relative_time < offset || relative_time >= offset + length {
+            return None;
+        }
+
+        let offset = Duration::minutes(offset + i * freq);
+        Some(EventInstance {
+            schedule: self.event_schedule.clone(),
+            start_time: offset,
+        })
+    }
+}
+
+impl Iterator for Iter<'_> {
+    type Item = EventInstance;
+
+    fn next(&mut self) -> Option<EventInstance> {
+        let time = self.offset.num_minutes();
+        let offset = self.event_schedule.offset.num_seconds_from_midnight() as i64 / 60;
+        let freq = self.event_schedule.frequency.num_minutes();
+        let i = time / freq;
+        let relative_time = time - i * freq;
+
+        let offset = if relative_time < offset {
+            offset
+        } else {
+            offset + freq
+        };
+
+        self.offset = Duration::minutes(offset + i * freq);
+
+        Some(EventInstance {
+            schedule: self.event_schedule.clone(),
+            start_time: self.offset,
+        })
+    }
+}
+
+pub struct IterMut<'a> {
+    event_schedule: &'a mut EventSchedule,
+    offset: Duration,
+}
+
+impl<'a> IterMut<'_> {
+    // Creates a new iterator starting from the previous occurance of the event
+    fn new(event_schedule: &'a mut EventSchedule, current_time: Duration) -> IterMut {
+        // Must use Durations instead of NaiveTime because the event_end_time might be over 24 hours
+        IterMut {
+            event_schedule,
+            offset: current_time,
+        }
+    }
+
+    /// Skip to a certain time of day
+    pub fn time(mut self, time: NaiveTime) -> Self {
+        self.offset = Duration::seconds(time.num_seconds_from_midnight() as i64);
+        self
+    }
+
+    /// Skip forward an amount of time
+    pub fn fast_forward(mut self, amount: Duration) -> Self {
+        self.offset = self.offset.add(amount);
+        self
+    }
+
+    /// Get the event happening now, if any, at the current iteration of the iterator.
+    pub fn now(&self) -> Option<EventInstance> {
+        let time = self.offset.num_minutes();
+        let offset = self.event_schedule.offset.num_seconds_from_midnight() as i64 / 60;
+        let freq = self.event_schedule.frequency.num_minutes();
+        let length = self.event_schedule.length.num_minutes();
+        let i = time / freq;
+        let relative_time = time - i * freq;
+
+        if relative_time < offset || relative_time >= offset + length {
+            return None;
+        }
+
+        let offset = Duration::minutes(offset + i * freq);
+        Some(EventInstance {
+            schedule: self.event_schedule.clone(),
+            start_time: offset,
+        })
+    }
+}
+
+impl Iterator for IterMut<'_> {
+    type Item = EventInstance;
+
+    fn next(&mut self) -> Option<EventInstance> {
+        let time = self.offset.num_minutes();
+        let offset = self.event_schedule.offset.num_seconds_from_midnight() as i64 / 60;
         let freq = self.event_schedule.frequency.num_minutes();
         let i = time / freq;
         let relative_time = time - i * freq;

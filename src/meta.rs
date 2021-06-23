@@ -47,15 +47,10 @@ impl IntoIter {
     }
 
     pub fn now(&self) -> Option<EventInstance> {
+        let time = self.current_time;
         self.schedules
             .iter()
-            .filter_map(|event_schedules| {
-                event_schedules
-                    .into_iter()
-                    .fast_forward(self.current_time)
-                    .now()
-            })
-            .next()
+            .find_map(|event_schedules| event_schedules.iter().fast_forward(time).now())
     }
 }
 
@@ -67,10 +62,7 @@ impl Iterator for IntoIter {
             .schedules
             .iter()
             .filter_map(|event_schedule| {
-                event_schedule
-                    .into_iter()
-                    .fast_forward(self.current_time)
-                    .next()
+                event_schedule.iter().fast_forward(self.current_time).next()
             })
             .reduce(|event_a, event_b| {
                 if event_b.start_time < event_a.start_time {

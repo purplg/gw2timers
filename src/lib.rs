@@ -18,7 +18,7 @@ mod event_tests {
             frequency: Duration::hours(1),
             length: Duration::minutes(15),
         };
-        let mut event_iter = test_event_schedule.into_iter();
+        let mut event_iter = test_event_schedule.iter();
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 20);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 80);
 
@@ -29,13 +29,13 @@ mod event_tests {
         event_iter = event_iter.time(NaiveTime::from_hms(3, 0, 0));
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 200);
 
-        let mut event_iter = test_event_schedule.into_iter().fast_forward(Duration::minutes(0));
+        let mut event_iter = test_event_schedule.iter().fast_forward(Duration::minutes(0));
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 20);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 80);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 140);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 200);
 
-        let mut event_iter = test_event_schedule.into_iter().fast_forward(Duration::minutes(40));
+        let mut event_iter = test_event_schedule.iter().fast_forward(Duration::minutes(40));
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 80);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 140);
         assert_eq!(event_iter.next().unwrap().start_time.num_minutes(), 200);
@@ -51,49 +51,49 @@ mod event_tests {
         };
 
         let now = test_event_schedule
-            .into_iter()
+            .iter()
             .time(NaiveTime::from_hms(1, 44, 0))
             .now();
         assert!(now.is_none());
 
         let now = test_event_schedule
-            .into_iter()
+            .iter()
             .time(NaiveTime::from_hms(1, 45, 0))
             .now();
         assert!(now.is_some());
 
         let now = test_event_schedule
-            .into_iter()
+            .iter()
             .time(NaiveTime::from_hms(2, 14, 0))
             .now();
         assert!(now.is_some());
 
         let now = test_event_schedule
-            .into_iter()
+            .iter()
             .time(NaiveTime::from_hms(2, 15, 0))
             .now();
         assert!(now.is_none());
 
         let now = test_event_schedule
-            .into_iter()
+            .iter()
             .time(NaiveTime::from_hms(4, 44, 0))
             .now();
         assert!(now.is_none());
 
         let now = test_event_schedule
-            .into_iter()
+            .iter()
             .time(NaiveTime::from_hms(4, 45, 0))
             .now();
         assert!(now.is_some());
 
         let now = test_event_schedule
-            .into_iter()
+            .iter()
             .time(NaiveTime::from_hms(5, 14, 0))
             .now();
         assert!(now.is_some());
 
         let now = test_event_schedule
-            .into_iter()
+            .iter()
             .time(NaiveTime::from_hms(5, 15, 0))
             .now();
         assert!(now.is_none());
