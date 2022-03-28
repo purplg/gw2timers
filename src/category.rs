@@ -1,9 +1,9 @@
 pub enum Category {
     CoreTyria,
     LivingWorldSeason2,
-    LivingWorldSeason3,
-    LivingWorldSeason4,
     HeartOfThorns,
+    LivingWorldSeason3,
     PathOfFire,
+    LivingWorldSeason4,
     TheIcebroodSaga,
 }
