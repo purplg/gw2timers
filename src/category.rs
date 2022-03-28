@@ -6,4 +6,5 @@ pub enum Category {
     PathOfFire,
     LivingWorldSeason4,
     TheIcebroodSaga,
+    EndOfDragons,
 }

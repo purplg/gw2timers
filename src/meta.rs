@@ -130,11 +130,16 @@ pub enum MapMetaKind {
     GrothmarValley,
     BjoraMarches,
     Dragonstorm,
+    Cantha,
+    SeitungProvince,
+    NewKainengCity,
+    TheEchovaldWilds,
+    DragonsEnd,
 }
 
 impl MapMetaKind {
     /// Get all the map meta keys available
-    pub fn all_keys() -> [MapMetaKind; 22] {
+    pub fn all_keys() -> [MapMetaKind; 27] {
         [
             MapMetaKind::DayAndNight,
             MapMetaKind::WorldBosses,
@@ -158,6 +163,11 @@ impl MapMetaKind {
             MapMetaKind::GrothmarValley,
             MapMetaKind::BjoraMarches,
             MapMetaKind::Dragonstorm,
+            MapMetaKind::Cantha,
+            MapMetaKind::SeitungProvince,
+            MapMetaKind::NewKainengCity,
+            MapMetaKind::TheEchovaldWilds,
+            MapMetaKind::DragonsEnd,
         ]
     }
 
@@ -761,6 +771,110 @@ impl MapMetaKind {
                     frequency: Duration::hours(2),
                     length: Duration::minutes(20),
                 }],
+            },
+            MapMetaKind::Cantha => MapMeta {
+                name: "Cantha: Day and Night",
+                category: Category::EndOfDragons,
+                schedules: vec![
+                    EventSchedule {
+                        name: "Dawn",
+                        offset: NaiveTime::from_hms(0, 25, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(5),
+                    },
+                    EventSchedule {
+                        name: "Day",
+                        offset: NaiveTime::from_hms(0, 30, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::hours(1).add(Duration::minutes(10)),
+                    },
+                    EventSchedule {
+                        name: "Dusk",
+                        offset: NaiveTime::from_hms(1, 40, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(5),
+                    },
+                    EventSchedule {
+                        name: "Night",
+                        offset: NaiveTime::from_hms(1, 45, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(40),
+                    },
+                ],
+            },
+            MapMetaKind::SeitungProvince => MapMeta {
+                name: "Seitung Province",
+                category: Category::EndOfDragons,
+                schedules: vec![EventSchedule {
+                    name: "Aetherblade Assault",
+                    offset: NaiveTime::from_hms(1, 30, 0),
+                    frequency: Duration::hours(2),
+                    length: Duration::minutes(30),
+                }],
+            },
+            MapMetaKind::NewKainengCity => MapMeta {
+                name: "New Kaineng City",
+                category: Category::EndOfDragons,
+                schedules: vec![EventSchedule {
+                    name: "Kaineng Blackout",
+                    offset: NaiveTime::from_hms(0, 0, 0),
+                    frequency: Duration::hours(2),
+                    length: Duration::minutes(40),
+                }],
+            },
+            MapMetaKind::TheEchovaldWilds => MapMeta {
+                name: "The Echovald Wilds",
+                category: Category::EndOfDragons,
+                schedules: vec![
+                    EventSchedule {
+                        name: "Gang War",
+                        offset: NaiveTime::from_hms(0, 30, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(35),
+                    },
+                    EventSchedule {
+                        name: "Aspenwood",
+                        offset: NaiveTime::from_hms(1, 40, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(20),
+                    },
+                ],
+            },
+            MapMetaKind::DragonsEnd => MapMeta {
+                name: "Dragon's End",
+                category: Category::EndOfDragons,
+                schedules: vec![
+                    EventSchedule {
+                        name: "Jade Maw",
+                        offset: NaiveTime::from_hms(0, 5, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(8),
+                    },
+                    EventSchedule {
+                        name: "Preparations",
+                        offset: NaiveTime::from_hms(0, 13, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(32),
+                    },
+                    EventSchedule {
+                        name: "Jade Maw",
+                        offset: NaiveTime::from_hms(0, 45, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(8),
+                    },
+                    EventSchedule {
+                        name: "Preparations",
+                        offset: NaiveTime::from_hms(0, 53, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::minutes(8),
+                    },
+                    EventSchedule {
+                        name: "The Battle for the Jade Sea",
+                        offset: NaiveTime::from_hms(1, 0, 0),
+                        frequency: Duration::hours(2),
+                        length: Duration::hours(1),
+                    },
+                ],
             },
         }
     }
