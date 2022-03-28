@@ -112,6 +112,7 @@ pub enum MapMetaKind {
     WorldBosses,
     HardWorldBosses,
     LeyLineAnomaly,
+    TwistedMarionette,
     PVPTournaments,
     DryTop,
     VerdantBrink,
@@ -139,12 +140,13 @@ pub enum MapMetaKind {
 
 impl MapMetaKind {
     /// Get all the map meta keys available
-    pub fn all_keys() -> [MapMetaKind; 27] {
+    pub fn all_keys() -> [MapMetaKind; 28] {
         [
             MapMetaKind::DayAndNight,
             MapMetaKind::WorldBosses,
             MapMetaKind::HardWorldBosses,
             MapMetaKind::LeyLineAnomaly,
+            MapMetaKind::TwistedMarionette,
             MapMetaKind::PVPTournaments,
             MapMetaKind::DryTop,
             MapMetaKind::VerdantBrink,
@@ -407,6 +409,16 @@ impl MapMetaKind {
                         length: Duration::minutes(20),
                     },
                 ],
+            },
+            MapMetaKind::TwistedMarionette => MapMeta {
+                name: "Twisted Marionette",
+                category: Category::CoreTyria,
+                schedules: vec![EventSchedule {
+                    name: "Twisted Marionette (Public)",
+                    offset: NaiveTime::from_hms(0, 0, 0),
+                    frequency: Duration::hours(2),
+                    length: Duration::minutes(20),
+                }],
             },
             MapMetaKind::PVPTournaments => MapMeta {
                 name: "PvP Tournaments",
